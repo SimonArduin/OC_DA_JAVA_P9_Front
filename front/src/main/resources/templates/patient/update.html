@@ -2,10 +2,14 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>patient - add</title>
+    <title>patient - update</title>
 </head>
 <body>
-<h2>ADD PATIENT :</h2>
+<tr>
+    <a th:href="@{'update/' + ${patient.idPatient}}">update</a>
+    <a href="../add">add</a>
+</tr>
+<h2>UPDATE PATIENT :</h2>
 <table>
     <tr>
         <td>First name</td>
@@ -16,14 +20,14 @@
         <td>Phone number</td>
     </tr>
     <tr>
-        <form action="#" th:action="@{add}" th:object="${patient}" method="post">
+        <form action="#" th:action="@{${patient.idPatient}}" th:object="${patient}" method="post">
             <input type="text" th:field="*{firstName}" id="firstName" placeholder="firstName">
             <input type="text" th:field="*{lastName}" id="lastName" placeholder="lastName">
             <input type="text" th:field="*{birthDate}" id="birthDate" placeholder="birthDate">
             <input type="text" th:field="*{gender}" id="gender" placeholder="gender">
             <input type="text" th:field="*{address}" id="address" placeholder="address">
             <input type="text" th:field="*{phoneNumber}" id="phoneNumber" placeholder="phoneNumber">
-            <input class="btn btn-primary btn-sm" type="submit" value="Add Patient">
+            <input class="btn btn-primary btn-sm" type="submit" value="Update Patient">
         </form>
     </tr>
 </table>

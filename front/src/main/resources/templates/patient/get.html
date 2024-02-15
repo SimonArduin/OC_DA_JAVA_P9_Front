@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>patient - get</title>
+</head>
+<body>
+<tr>
+    <a href="home">home</a>
+</tr>
+<h2>PATIENT INFO :</h2>
+<table>
+    <tr>
+        <td>Id</td>
+        <td>First name</td>
+        <td>Last name</td>
+        <td>Birth date</td>
+        <td>Gender</td>
+        <td>Address</td>
+        <td>Phone number</td>
+    </tr>
+    <tr>
+        <td th:text="${patient.idPatient}">placeholder patient info</td>
+        <td th:text="${patient.firstName}">placeholder patient info</td>
+        <td th:text="${patient.lastName}">placeholder patient info</td>
+        <td th:text="${patient.birthDate}">placeholder patient info</td>
+        <td th:text="${patient.gender}">placeholder patient info</td>
+        <td th:text="${patient.address}">placeholder patient info</td>
+        <td th:text="${patient.phoneNumber}">placeholder patient info</td>
+    </tr>
+</table>
+</body>
+</html>

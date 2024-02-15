@@ -14,19 +14,16 @@
         <td>Id</td>
         <td>First name</td>
         <td>Last name</td>
-        <td>Birth date</td>
-        <td>Gender</td>
-        <td>Address</td>
-        <td>Phone number</td>
+        <td></td>
     </tr>
-    <tr>
+    <tr th:each="patient: ${patientList}">
         <td th:text="${patient.idPatient}">placeholder patient info</td>
         <td th:text="${patient.firstName}">placeholder patient info</td>
         <td th:text="${patient.lastName}">placeholder patient info</td>
-        <td th:text="${patient.birthDate}">placeholder patient info</td>
-        <td th:text="${patient.gender}">placeholder patient info</td>
-        <td th:text="${patient.address}">placeholder patient info</td>
-        <td th:text="${patient.phoneNumber}">placeholder patient info</td>
+        <td><a th:href="@{'update/' + ${patient.idPatient}}">update</a></td>
+    </tr>
+    <tr>
+        <td><a href="add">add patient</a></td>
     </tr>
 </table>
 </body>

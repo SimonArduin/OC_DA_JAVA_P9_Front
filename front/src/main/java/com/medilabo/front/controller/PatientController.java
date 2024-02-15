@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/patient")
 public class PatientController {
@@ -47,6 +49,13 @@ public class PatientController {
         Patient patient = new RestTemplate().getForEntity(GATEWAY_URL + "get?id=" + id, Patient.class).getBody();
         model.addAttribute("patient", patient);
         return "patient/get";
+    }
+
+    @GetMapping("home")
+    public String patientHome(Model model) {
+        List<Patient> patientList = new RestTemplate().getForEntity(GATEWAY_URL + "getall", List.class).getBody();
+        model.addAttribute("patientList", patientList);
+        return "patient/home";
     }
 
     @GetMapping("update/{id}")

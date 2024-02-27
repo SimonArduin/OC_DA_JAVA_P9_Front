@@ -31,6 +31,7 @@ public class NoteController {
     public NoteController(WebClient.Builder webClientBuilder, LoginController loginController) {
         this.loginController = loginController;
         this.webClient = webClientBuilder.baseUrl(NOTE_URL).build();
+        // get credentials from loginController, add them to HttpHeader
         this.headers = loginController.getHeaders();
     }
 

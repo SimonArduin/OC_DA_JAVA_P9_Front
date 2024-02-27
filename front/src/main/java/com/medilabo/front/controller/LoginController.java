@@ -37,6 +37,7 @@ public class LoginController {
         return authHeader;
     }
 
+    // represents the content of the form sent by the user
     class LoginInfo {
         public String username;
         public String password;
@@ -64,6 +65,7 @@ public class LoginController {
         return "login";
     }
 
+    // adds the credentials provided by the user to HttpHeader
     @PostMapping(value = "login", consumes = "application/x-www-form-urlencoded")
     public String loginPost(LoginInfo loginInfo) {
         logger.info("login request");
@@ -73,6 +75,7 @@ public class LoginController {
         return "redirect:home";
     }
 
+    // removes credentials from HttpHeader
     @GetMapping("logout")
     public String logout() {
         logger.info("logout request");
@@ -85,7 +88,7 @@ public class LoginController {
         return "redirect:patient/home";
     }
 
-    public HttpHeaders getHeaders() {
+    HttpHeaders getHeaders() {
         return headers;
     }
 }

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>patient - get</title>
+    <title>patient - home</title>
 </head>
 <body>
 <tr>
@@ -15,11 +15,13 @@
         <td>First name</td>
         <td>Last name</td>
         <td></td>
+        <td></td>
     </tr>
     <tr th:each="patient: ${patientList}">
         <td th:text="${patient.idPatient}">placeholder patient info</td>
         <td th:text="${patient.firstName}">placeholder patient info</td>
         <td th:text="${patient.lastName}">placeholder patient info</td>
+        <td><a th:href="@{'get?id=' + ${patient.idPatient}}">see</a></td>
         <td><a th:href="@{'update/' + ${patient.idPatient}}">update</a></td>
     </tr>
     <tr>

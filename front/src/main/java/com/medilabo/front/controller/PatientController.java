@@ -1,5 +1,6 @@
 package com.medilabo.front.controller;
 
+import com.medilabo.front.domain.Note;
 import com.medilabo.front.domain.Patient;
 import com.medilabo.front.util.HeadersUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -22,6 +24,9 @@ import java.util.List;
 public class PatientController {
     @Value("${patient.url}")
     private String PATIENT_URL;
+
+    @Value("${note.url}")
+    private String NOTE_URL;
 
     private final HeadersUtil headersUtil;
     private final WebClient webClient;
@@ -58,7 +63,13 @@ public class PatientController {
     public String patientGet(Integer id, Model model) {
         HttpEntity request = new HttpEntity<>(null, headers);
         Patient patient = new RestTemplate().exchange(PATIENT_URL + "get?id=" + id, HttpMethod.GET, request, Patient.class).getBody();
+        List<Note> noteList = new ArrayList<>();
+        try {
+            noteList = new RestTemplate().exchange(NOTE_URL + "getbypatid?patId=" + id, HttpMethod.GET, request, List.class).getBody();
+        }
+        catch (Exception exception) {}
         model.addAttribute("patient", patient);
+        model.addAttribute("noteList", noteList);
         return "patient/get";
     }
 

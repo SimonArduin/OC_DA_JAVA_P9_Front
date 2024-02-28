@@ -43,9 +43,17 @@ public class NoteController {
         return "redirect:../login";
     }
 
+    @GetMapping("home")
+    public String home() {
+        return "redirect:../patient/home";
+    }
+
+    // display a form to add a note with specified patId
     @GetMapping("add")
-    public String noteAddForm(Model model) {
-        model.addAttribute("note", new Note());
+    public String noteAddForm(Model model, Integer patId) {
+        Note note = new Note();
+        note.setPatId(patId);
+        model.addAttribute("note", note);
         return "note/add";
     }
 

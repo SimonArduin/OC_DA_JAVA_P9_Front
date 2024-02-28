@@ -7,6 +7,7 @@
 <body>
 <tr>
     <a href="home">home</a>
+    <a href="../logout">logout</a>
 </tr>
 <h2>PATIENT INFO :</h2>
 <table>
@@ -29,5 +30,21 @@
         <td th:text="${patient.phoneNumber}">placeholder patient info</td>
     </tr>
 </table>
+<div th:if="${noteList != null and not noteList.isEmpty()}">
+<h2>NOTES :</h2>
+    <table>
+        <tr>
+            <td>Id</td>
+            <td>Note</td>
+        </tr>
+        <tr th:each="note: ${noteList}">
+            <td th:text="${note.id}">placeholder note info</td>
+            <td th:text="${note.note}">placeholder note info</td>
+        </tr>
+        <tr>
+            <td><a th:href="@{'../note/add?patId=' + ${patient.idPatient}}">add note</a></td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>

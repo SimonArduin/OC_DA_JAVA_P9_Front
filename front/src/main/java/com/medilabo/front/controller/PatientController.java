@@ -1,6 +1,7 @@
 package com.medilabo.front.controller;
 
 import com.medilabo.front.domain.Patient;
+import com.medilabo.front.util.HeadersUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -19,19 +20,18 @@ import java.util.List;
 @Controller
 @RequestMapping("/patient")
 public class PatientController {
-
     @Value("${patient.url}")
     private String PATIENT_URL;
 
-    private final LoginController loginController;
+    private final HeadersUtil headersUtil;
     private final WebClient webClient;
     private final HttpHeaders headers;
 
     @Autowired
-    public PatientController(WebClient.Builder webClientBuilder, LoginController loginController) {
-        this.loginController = loginController;
+    public PatientController(WebClient.Builder webClientBuilder, HeadersUtil headersUtil) {
+        this.headersUtil = headersUtil;
         this.webClient = webClientBuilder.baseUrl(PATIENT_URL).build();
-        this.headers = loginController.getHeaders();
+        this.headers = headersUtil.getHeaders();
     }
 
     // when an API call made by the controller returns 401 - unauthorized, redirect to login

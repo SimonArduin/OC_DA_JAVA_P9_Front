@@ -1,6 +1,7 @@
 package com.medilabo.front.controller;
 
 import com.medilabo.front.domain.Note;
+import com.medilabo.front.util.HeadersUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -23,16 +24,16 @@ public class NoteController {
     @Value("${note.url}")
     private String NOTE_URL;
 
-    private final LoginController loginController;
+    private final HeadersUtil headersUtil;
     private final WebClient webClient;
     private final HttpHeaders headers;
 
     @Autowired
-    public NoteController(WebClient.Builder webClientBuilder, LoginController loginController) {
-        this.loginController = loginController;
+    public NoteController(WebClient.Builder webClientBuilder, HeadersUtil headersUtil) {
+        this.headersUtil = headersUtil;
         this.webClient = webClientBuilder.baseUrl(NOTE_URL).build();
-        // get credentials from loginController, add them to HttpHeader
-        this.headers = loginController.getHeaders();
+        // get credentials from headersUtil, add them to HttpHeader
+        this.headers = headersUtil.getHeaders();
     }
 
     // when an API call made by the controller returns 401 - unauthorized, redirect to login

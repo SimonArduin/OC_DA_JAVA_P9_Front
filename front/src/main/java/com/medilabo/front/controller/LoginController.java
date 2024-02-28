@@ -1,46 +1,26 @@
 package com.medilabo.front.controller;
 
+import com.medilabo.front.util.HeadersUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.client.WebClient;
-
-import java.nio.charset.Charset;
-import java.util.Base64;
 
 @Controller
 public class LoginController {
+
+    private HeadersUtil headersUtil;
 
     @Value("${gateway.url}")
     private String GATEWAY_URL;
 
     private static final Logger logger = LoggerFactory.getLogger(NoteController.class);
 
-    private final HttpHeaders headers;
-
-    @Autowired
-    public LoginController() {
-        this.headers = new HttpHeaders();
-        this.headers.setContentType(MediaType.APPLICATION_JSON);
-    }
-    private String createAuthHeader(String username, String password) {
-        String auth = username + ":" + password;
-        byte[] encodedAuth = Base64.getEncoder().encode(
-                auth.getBytes(Charset.forName("US-ASCII")));
-        String authHeader = "Basic " + new String(encodedAuth);
-        return authHeader;
-    }
-
-    // represents the content of the form sent by the user
-    class LoginInfo {
-        public String username;
-        public String password;
+    public class LoginInfo {
+        String username;
+        String password;
 
         public String getUsername() {
             return username;
@@ -61,17 +41,16 @@ public class LoginController {
 
     @GetMapping("login")
     public String login(Model model) {
-        model.addAttribute("loginInfo", new LoginInfo());
         return "login";
     }
 
     // adds the credentials provided by the user to HttpHeader
-    @PostMapping(value = "login", consumes = "application/x-www-form-urlencoded")
+    @PostMapping("login")
     public String loginPost(LoginInfo loginInfo) {
         logger.info("login request");
         String username = loginInfo.getUsername();
         String password = loginInfo.getPassword();
-        this.headers.set("Authorization", createAuthHeader(username,password));
+        HeadersUtil.login(username,password);
         return "redirect:home";
     }
 
@@ -79,7 +58,7 @@ public class LoginController {
     @GetMapping("logout")
     public String logout() {
         logger.info("logout request");
-        this.headers.set("Authorization", null);
+        HeadersUtil.logout();
         return "redirect:login";
     }
 
@@ -88,7 +67,4 @@ public class LoginController {
         return "redirect:patient/home";
     }
 
-    HttpHeaders getHeaders() {
-        return headers;
-    }
 }

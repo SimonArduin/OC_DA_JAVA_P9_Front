@@ -1,5 +1,6 @@
 package com.medilabo.front.controller;
 
+import com.medilabo.front.dto.LoginInfoDto;
 import com.medilabo.front.util.HeadersUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,27 +19,6 @@ public class LoginController {
 
     private static final Logger logger = LoggerFactory.getLogger(NoteController.class);
 
-    public class LoginInfo {
-        String username;
-        String password;
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-    }
-
     @GetMapping("login")
     public String login(Model model) {
         return "login";
@@ -46,7 +26,7 @@ public class LoginController {
 
     // adds the credentials provided by the user to HttpHeader
     @PostMapping("login")
-    public String loginPost(LoginInfo loginInfo) {
+    public String loginPost(LoginInfoDto loginInfo) {
         logger.info("login request");
         String username = loginInfo.getUsername();
         String password = loginInfo.getPassword();

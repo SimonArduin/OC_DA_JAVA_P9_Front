@@ -2,19 +2,16 @@ package com.medilabo.front.controller;
 
 import com.medilabo.front.domain.Note;
 import com.medilabo.front.domain.Patient;
-import com.medilabo.front.util.HeadersUtil;
+import com.medilabo.front.service.NoteService;
+import com.medilabo.front.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,15 +25,15 @@ public class PatientController {
     @Value("${note.url}")
     private String NOTE_URL;
 
-    private final HeadersUtil headersUtil;
     private final WebClient webClient;
-    private final HttpHeaders headers;
+    private final PatientService patientService;
+    private final NoteService noteService;
 
     @Autowired
-    public PatientController(WebClient.Builder webClientBuilder, HeadersUtil headersUtil) {
-        this.headersUtil = headersUtil;
+    public PatientController(WebClient.Builder webClientBuilder, PatientService patientService, NoteService noteService) {
         this.webClient = webClientBuilder.baseUrl(PATIENT_URL).build();
-        this.headers = headersUtil.getHeaders();
+        this.patientService = patientService;
+        this.noteService = noteService;
     }
 
     // when an API call made by the controller returns 401 - unauthorized, redirect to login
@@ -54,18 +51,16 @@ public class PatientController {
 
     @PostMapping(value = "add", consumes = "application/x-www-form-urlencoded")
     public String validatePatientAdd(Patient patient) {
-        HttpEntity request = new HttpEntity<>(patient.toJson().toString(), headers);
-        new RestTemplate().postForObject(PATIENT_URL + "add", request, String.class);
+        patientService.add(patient);
         return "redirect:add";
     }
 
     @GetMapping("get")
     public String patientGet(Integer id, Model model) {
-        HttpEntity request = new HttpEntity<>(null, headers);
-        Patient patient = new RestTemplate().exchange(PATIENT_URL + "get?id=" + id, HttpMethod.GET, request, Patient.class).getBody();
+        Patient patient = patientService.get(id);
         List<Note> noteList = new ArrayList<>();
         try {
-            noteList = new RestTemplate().exchange(NOTE_URL + "getbypatid?patId=" + id, HttpMethod.GET, request, List.class).getBody();
+            noteList = noteService.getByPatId(id);
         }
         catch (Exception exception) {}
         model.addAttribute("patient", patient);
@@ -75,26 +70,21 @@ public class PatientController {
 
     @GetMapping("home")
     public String patientHome(Model model) {
-        HttpEntity request = new HttpEntity<>(null, headers);
-        List<Patient> patientList = new RestTemplate().exchange(PATIENT_URL + "getall", HttpMethod.GET, request, List.class).getBody();
+        List<Patient> patientList = patientService.getAll();
         model.addAttribute("patientList", patientList);
         return "patient/home";
     }
 
     @GetMapping("update/{id}")
     public String patientUpdate(@PathVariable Integer id, Model model) {
-        HttpEntity request = new HttpEntity<>(null, headers);
-        Patient patient = new RestTemplate().exchange(PATIENT_URL + "get?id=" + id, HttpMethod.GET, request, Patient.class).getBody();
-        patient.setIdPatient(id);
+        Patient patient = patientService.get(id);
         model.addAttribute("patient", patient);
         return "patient/update";
     }
 
     @PostMapping(value = "update/{id}", consumes = "application/x-www-form-urlencoded")
     public String validatePatientUpdate(@PathVariable Integer id, Patient patient) {
-        patient.setIdPatient(id);
-        HttpEntity<String> request = new HttpEntity<>(patient.toJson().toString(), headers);
-        new RestTemplate().put(PATIENT_URL + "update/" + id, request);
+        patientService.update(id, patient);
         return "redirect:../get?id=" + id;
     }
 

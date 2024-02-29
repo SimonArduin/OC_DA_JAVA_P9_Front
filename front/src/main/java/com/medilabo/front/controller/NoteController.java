@@ -1,18 +1,14 @@
 package com.medilabo.front.controller;
 
 import com.medilabo.front.domain.Note;
-import com.medilabo.front.util.HeadersUtil;
+import com.medilabo.front.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
@@ -23,20 +19,16 @@ public class NoteController {
 
     @Value("${note.url}")
     private String NOTE_URL;
-
-    private final HeadersUtil headersUtil;
     private final WebClient webClient;
-    private final HttpHeaders headers;
+    private final NoteService noteService;
 
     @Autowired
-    public NoteController(WebClient.Builder webClientBuilder, HeadersUtil headersUtil) {
-        this.headersUtil = headersUtil;
+    public NoteController(WebClient.Builder webClientBuilder, NoteService noteService) {
         this.webClient = webClientBuilder.baseUrl(NOTE_URL).build();
-        // get credentials from headersUtil, add them to HttpHeader
-        this.headers = headersUtil.getHeaders();
+        this.noteService = noteService;
     }
 
-    // when an API call made by the controller returns 401 - unauthorized, redirect to login
+    // when an API call returns 401 - unauthorized, redirect to login
     @ExceptionHandler(HttpClientErrorException.Unauthorized.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public String handleUnauthorizedException(HttpClientErrorException.Unauthorized exception) {
@@ -59,8 +51,7 @@ public class NoteController {
 
     @PostMapping(value = "add", consumes = "application/x-www-form-urlencoded")
     public String validateNoteAdd(Note note) {
-        HttpEntity request = new HttpEntity<>(note.toJson().toString(), headers);
-        new RestTemplate().postForObject(NOTE_URL + "add", request, String.class);
+        noteService.add(note);
         return "redirect:add";
     }
 
@@ -74,15 +65,13 @@ public class NoteController {
     }
 
     public String noteGetById(String id, Model model) {
-        HttpEntity request = new HttpEntity<>(null, headers);
-        Note note = new RestTemplate().exchange(NOTE_URL + "getbyid?id=" + id, HttpMethod.GET, request, Note.class).getBody();
+        Note note = noteService.getById(id);
         model.addAttribute("note", note);
         return "note/getById";
     }
 
     public String noteGetByPatId(Integer patId, Model model) {
-        HttpEntity request = new HttpEntity<>(null, headers);
-        List<Note> noteList = new RestTemplate().exchange(NOTE_URL + "getbypatid?patId=" + patId, HttpMethod.GET, request, List.class).getBody();
+        List<Note> noteList = noteService.getByPatId(patId);
         model.addAttribute("noteList", noteList);
         return "note/getByPatId";
     }

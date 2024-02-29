@@ -2,28 +2,35 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
     <title>note - add</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet"/>
 </head>
 <body>
-<tr>
+<div class="container">
     <a href="home">home</a>
     <a href="../logout">logout</a>
-</tr>
-<h2>ADD NOTE :</h2>
-<form action="#" th:action="@{add}" th:object="${note}" method="post">
-    <table>
-        <tr>
-            <td>Patient Id</td>
-            <td>Patient</td>
-            <td>Note</td>
-        </tr>
-        <tr>
-            <td><input type="text" th:field="*{patId}" id="patId" placeholder="patient id"></td>
-            <td><input type="text" th:field="*{patient}" id="patient" placeholder="patient name"></td>
-            <td><input type="text" th:field="*{note}" id="note" placeholder="note"></td>
-        </tr>
-    </table>
-    <input class="btn btn-primary btn-sm" type="submit" value="Add Note">
-</form>
+</div>
+<div class="container">
+    <h2>ADD NOTE :</h2>
+    <form action="#" th:action="@{add}" th:object="${note}" method="post">
+        <table class="table table-striped">
+            <tr>
+                <td>Patient Id</td>
+                <td>Patient</td>
+                <td>Note</td>
+            </tr>
+            <tr>
+                <td><input type="text" th:field="*{patId}" id="patId" placeholder="patient id"></td>
+                <td><input type="text" th:field="*{patient}" id="patient" placeholder="patient name"></td>
+                <td><input type="text" th:field="*{note}" id="note" placeholder="note"></td>
+            </tr>
+        </table>
+        <button class="btn btn-primary btn-sm" type="submit">Add note</button>
+    </form>
+</div>
 </body>
 </html>

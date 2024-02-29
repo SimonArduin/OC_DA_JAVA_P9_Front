@@ -3,26 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>note - get</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet"/>
 </head>
 <body>
-<tr>
+<div class="container">
     <a href="home">home</a>
     <a href="../logout">logout</a>
-</tr>
-<h2>NOTE INFO :</h2>
-<table>
-    <tr>
-        <td>Id</td>
-        <td>Patient Id</td>
-        <td>Patient</td>
-        <td>Note</td>
-    </tr>
-    <tr th:each="note: ${noteList}">
-        <td th:text="${note.id}">placeholder note info</td>
-        <td th:text="${note.patId}">placeholder note info</td>
-        <td th:text="${note.patient}">placeholder note info</td>
-        <td th:text="${note.note}">placeholder note info</td>
-    </tr>
-</table>
+</div>
+<div class="container">
+    <h2>NOTE INFO :</h2>
+    <table class="table table-striped">
+        <tr>
+            <td>Id</td>
+            <td>Patient Id</td>
+            <td>Patient</td>
+            <td>Note</td>
+        </tr>
+        <tr th:each="note: ${noteList}">
+            <td th:text="${note.id}">placeholder note info</td>
+            <td th:text="${note.patId}">placeholder note info</td>
+            <td th:text="${note.patient}">placeholder note info</td>
+            <td th:text="${note.note}">placeholder note info</td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>

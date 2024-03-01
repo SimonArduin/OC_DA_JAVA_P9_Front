@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -19,12 +18,20 @@ public class LoginController {
 
     private static final Logger logger = LoggerFactory.getLogger(NoteController.class);
 
+    /**
+     * This method displays the login form.
+     * @return A String corresponding to a thymeleaf template
+     */
     @GetMapping("login")
-    public String login(Model model) {
+    public String login() {
         return "login";
     }
 
-    // adds the credentials provided by the user to HttpHeader
+    /**
+     * This methods consumes the login form and sends it to HeadersUtil.
+     * @param loginInfo
+     * @return Redirects to /home
+     */
     @PostMapping("login")
     public String loginPost(LoginInfoDto loginInfo) {
         logger.info("login request");
@@ -34,13 +41,21 @@ public class LoginController {
         return "redirect:home";
     }
 
-    // removes credentials from HttpHeader
+    /**
+     * This methods logs out the user.
+     * @return Redirects to /login
+     */
     @GetMapping("logout")
     public String logout() {
         logger.info("logout request");
         HeadersUtil.logout();
         return "redirect:login";
     }
+
+    /**
+     *
+     * @return Redirects to /patient/home
+     */
 
     @GetMapping("home")
     public String home() {

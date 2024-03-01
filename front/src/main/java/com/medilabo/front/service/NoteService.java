@@ -38,9 +38,9 @@ public class NoteService {
         return note;
     }
 
-    public List<Note> getByPatId(Integer patId) {
+    public List<Note> getByPatientId(Integer patientId) {
         HttpEntity request = new HttpEntity<>(null, headers);
-        List<Note> noteList = new RestTemplate().exchange(NOTE_URL + "getbypatid?patId=" + patId, HttpMethod.GET, request, List.class).getBody();
+        List<Note> noteList = new RestTemplate().exchange(NOTE_URL + "getbypatientid?patientId=" + patientId, HttpMethod.GET, request, List.class).getBody();
         return noteList;
     }
 }

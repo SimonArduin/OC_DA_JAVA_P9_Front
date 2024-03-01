@@ -34,7 +34,7 @@
         </tr>
     </table>
 </div>
-<div class="container" th:if="${noteList != null and not noteList.isEmpty()}">
+<div class="container" th:if="${noteAuthorized == true}">
     <h2>NOTES :</h2>
     <table class="table table-striped">
         <tr>
@@ -45,10 +45,8 @@
             <td th:text="${note.id}">placeholder note info</td>
             <td th:text="${note.note}">placeholder note info</td>
         </tr>
-        <tr>
-            <td><a th:href="@{'../note/add?patId=' + ${patient.idPatient}}">add note</a></td>
-        </tr>
     </table>
+    <a th:href="@{'../note/add?patientId=' + ${patient.idPatient}}">add note</a>
 </div>
 </body>
 </html>

@@ -28,52 +28,90 @@ public class NoteController {
         this.noteService = noteService;
     }
 
-    // when an API call returns 401 - unauthorized, redirect to login
+    /**
+     * This methods is called when a 401 - unauthorized exception is thrown.
+     * It redirects the user to the login page.
+     * @param exception
+     * @return Redirects to /login
+     */
     @ExceptionHandler(HttpClientErrorException.Unauthorized.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public String handleUnauthorizedException(HttpClientErrorException.Unauthorized exception) {
         return "redirect:../login";
     }
 
+    /**
+     *
+     * @return Redirects to /home
+     */
     @GetMapping("home")
     public String home() {
-        return "redirect:../patient/home";
+        return "redirect:../home";
     }
 
-    // display a form to add a note with specified patId
+    /**
+     * This method displays the addNote form, with the specified patientId.
+     * @param model
+     * @param patientId
+     * @return A String corresponding to a thymeleaf template
+     */
     @GetMapping("add")
-    public String noteAddForm(Model model, Integer patId) {
+    public String noteAddForm(Model model, Integer patientId) {
         Note note = new Note();
-        note.setPatId(patId);
+        note.setPatientId(patientId);
         model.addAttribute("note", note);
         return "note/add";
     }
 
+    /**
+     * This method consumes the addNote form.
+     * @param note
+     * @return Redirects to /add
+     */
     @PostMapping(value = "add", consumes = "application/x-www-form-urlencoded")
     public String validateNoteAdd(Note note) {
         noteService.add(note);
         return "redirect:add";
     }
 
+    /**
+     * This method calls either noteGetById or NoteGetByPatientId according to the provided arguments.
+     * @param id
+     * @param patientId
+     * @param model
+     * @return A String corresponding to a thymeleaf template
+     */
     @GetMapping("get")
-    public String noteGet(String id, Integer patId, Model model) {
+    public String noteGet(String id, Integer patientId, Model model) {
         if (id != null)
             return noteGetById(id, model);
-        if (patId != null)
-            return noteGetByPatId(patId, model);
+        if (patientId != null)
+            return noteGetByPatientId(patientId, model);
         return "error";
     }
 
+    /**
+     * This method displays informations on a specific note.
+     * @param id
+     * @param model
+     * @return A String corresponding to a thymeleaf template
+     */
     public String noteGetById(String id, Model model) {
         Note note = noteService.getById(id);
         model.addAttribute("note", note);
         return "note/getById";
     }
 
-    public String noteGetByPatId(Integer patId, Model model) {
-        List<Note> noteList = noteService.getByPatId(patId);
+    /**
+     * This methods displays all notes with a specific patientId.
+     * @param patientId
+     * @param model
+     * @return A String corresponding to a thymeleaf template
+     */
+    public String noteGetByPatientId(Integer patientId, Model model) {
+        List<Note> noteList = noteService.getByPatientId(patientId);
         model.addAttribute("noteList", noteList);
-        return "note/getByPatId";
+        return "note/getByPatientId";
     }
 
 }

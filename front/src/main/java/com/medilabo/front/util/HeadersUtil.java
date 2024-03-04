@@ -29,7 +29,7 @@ public class HeadersUtil {
         headers.set("Authorization", null);
     }
 
-    public static HttpHeaders getHeaders() {
+    public HttpHeaders getHeaders() {
         return headers;
     }
 }

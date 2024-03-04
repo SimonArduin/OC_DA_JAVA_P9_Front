@@ -1,20 +1,23 @@
 package com.medilabo.front.controller;
 
 import com.medilabo.front.dto.LoginInfoDto;
-import com.medilabo.front.util.HeadersUtil;
+import com.medilabo.front.service.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+
 @Controller
 public class LoginController {
 
-    private HeadersUtil headersUtil;
-
     @Value("${gateway.url}")
     private String GATEWAY_URL;
+
+    @Autowired
+    LoginService loginService;
 
     private static final Logger logger = LoggerFactory.getLogger(NoteController.class);
 
@@ -29,15 +32,13 @@ public class LoginController {
 
     /**
      * This methods consumes the login form and sends it to HeadersUtil.
-     * @param loginInfo
+     * @param loginInfoDto
      * @return Redirects to /home
      */
     @PostMapping("login")
-    public String loginPost(LoginInfoDto loginInfo) {
+    public String loginPost(LoginInfoDto loginInfoDto) {
         logger.info("login request");
-        String username = loginInfo.getUsername();
-        String password = loginInfo.getPassword();
-        HeadersUtil.login(username,password);
+        loginService.login(loginInfoDto);
         return "redirect:home";
     }
 
@@ -48,7 +49,7 @@ public class LoginController {
     @GetMapping("logout")
     public String logout() {
         logger.info("logout request");
-        HeadersUtil.logout();
+            loginService.logout();
         return "redirect:login";
     }
 
@@ -61,5 +62,4 @@ public class LoginController {
     public String home() {
         return "redirect:patient/home";
     }
-
 }

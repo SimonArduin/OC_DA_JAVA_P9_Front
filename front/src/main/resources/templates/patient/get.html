@@ -34,6 +34,15 @@
         </tr>
     </table>
 </div>
+<div class="container" th:if="${predictionAuthorized == true}">
+    <h2>PREDICTION :</h2>
+    <table class="table table-striped">
+        <tr>
+            <td>Diabetes risk : </td>
+            <td th:text="${prediction}">placeholder prediction</td>
+        </tr>
+    </table>
+</div>
 <div class="container" th:if="${noteAuthorized == true}">
     <h2>NOTES :</h2>
     <table class="table table-striped">

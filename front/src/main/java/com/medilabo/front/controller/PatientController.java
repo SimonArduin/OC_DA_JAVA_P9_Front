@@ -4,6 +4,7 @@ import com.medilabo.front.domain.Note;
 import com.medilabo.front.domain.Patient;
 import com.medilabo.front.service.NoteService;
 import com.medilabo.front.service.PatientService;
+import com.medilabo.front.service.PredictionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -24,12 +25,14 @@ public class PatientController {
 
     private final WebClient webClient;
     private final PatientService patientService;
+    private final PredictionService predictionService;
     private final NoteService noteService;
 
     @Autowired
-    public PatientController(WebClient.Builder webClientBuilder, PatientService patientService, NoteService noteService) {
+    public PatientController(WebClient.Builder webClientBuilder, PatientService patientService, PredictionService predictionService, NoteService noteService) {
         this.webClient = webClientBuilder.baseUrl(PATIENT_URL).build();
         this.patientService = patientService;
+        this.predictionService = predictionService;
         this.noteService = noteService;
     }
 
@@ -70,13 +73,19 @@ public class PatientController {
     /**
      * This method displays a specific patient's informations.
      * If the user has access to the patient's notes, they are displayed.
+     *
      * @param id
      * @param model
      * @return A String corresponding to a thymeleaf template
      */
     @GetMapping("get")
     public String patientGet(Integer id, Model model) {
+
+        // get patient
         Patient patient = patientService.get(id);
+        model.addAttribute("patient", patient);
+
+        // get notes if authorized
         List<Note> noteList = new ArrayList<>();
         Boolean noteAuthorized = false;
         try {
@@ -84,9 +93,20 @@ public class PatientController {
             noteAuthorized = true;
         }
         catch (Exception exception) {}
-        model.addAttribute("patient", patient);
         model.addAttribute("noteList", noteList);
         model.addAttribute("noteAuthorized", noteAuthorized);
+
+        // get prediction if authorized
+        String prediction = null;
+        Boolean predictionAuthorized = false;
+        try {
+            prediction = predictionService.getById(id);
+            predictionAuthorized = true;
+        }
+        catch (Exception exception) {}
+        model.addAttribute("prediction", prediction);
+        model.addAttribute("predictionAuthorized", predictionAuthorized);
+
         return "patient/get";
     }
 

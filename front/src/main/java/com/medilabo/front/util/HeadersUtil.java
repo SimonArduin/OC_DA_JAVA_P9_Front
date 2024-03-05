@@ -1,5 +1,6 @@
 package com.medilabo.front.util;
 
+import com.medilabo.front.dto.LoginInfoDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -10,26 +11,22 @@ import java.util.Base64;
 
 @Component
 public class HeadersUtil {
-    private static final HttpHeaders headers = new HttpHeaders();
 
-    @Autowired
-    public HeadersUtil() {
-        headers.setContentType(MediaType.APPLICATION_JSON);
-    }
+    public HttpHeaders login(LoginInfoDto loginInfoDto) {
 
-    public static void login(String username, String password) {
+        // encode login info
+        String username = loginInfoDto.getUsername();
+        String password = loginInfoDto.getPassword();
         String auth = username + ":" + password;
         byte[] encodedAuth = Base64.getEncoder().encode(
                 auth.getBytes(Charset.forName("US-ASCII")));
         String authHeader = "Basic " + new String(encodedAuth);
+
+        // create headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", authHeader);
-    }
 
-    public static void logout() {
-        headers.set("Authorization", null);
-    }
-
-    public HttpHeaders getHeaders() {
         return headers;
     }
 }

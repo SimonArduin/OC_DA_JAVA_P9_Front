@@ -2,29 +2,28 @@ package com.medilabo.front.controller;
 
 import com.medilabo.front.domain.Note;
 import com.medilabo.front.service.NoteService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/note")
-public class NoteController {
+public class NoteController extends BasicController {
 
     @Value("${note.url}")
     private String NOTE_URL;
-    private final WebClient webClient;
     private final NoteService noteService;
 
     @Autowired
-    public NoteController(WebClient.Builder webClientBuilder, NoteService noteService) {
-        this.webClient = webClientBuilder.baseUrl(NOTE_URL).build();
+    public NoteController(NoteService noteService) {
         this.noteService = noteService;
     }
 
@@ -69,8 +68,12 @@ public class NoteController {
      * @return Redirects to /add
      */
     @PostMapping(value = "add", consumes = "application/x-www-form-urlencoded")
-    public String validateNoteAdd(Note note) {
-        noteService.add(note);
+    public String validateNoteAdd(Note note, HttpSession session) {
+        HttpHeaders headers = getHeaders(session);
+        if (headers.isEmpty()) {
+            return redirectToLogin();
+        }
+        noteService.add(note, headers);
         return "redirect:add";
     }
 
@@ -82,11 +85,15 @@ public class NoteController {
      * @return A String corresponding to a thymeleaf template
      */
     @GetMapping("get")
-    public String noteGet(String id, Integer patientId, Model model) {
+    public String noteGet(String id, Integer patientId, Model model, HttpSession session) {
+        HttpHeaders headers = getHeaders(session);
+        if (headers.isEmpty()) {
+            return redirectToLogin();
+        }
         if (id != null)
-            return noteGetById(id, model);
+            return noteGetById(id, model, headers);
         if (patientId != null)
-            return noteGetByPatientId(patientId, model);
+            return noteGetByPatientId(patientId, model, headers);
         return "error";
     }
 
@@ -96,8 +103,8 @@ public class NoteController {
      * @param model
      * @return A String corresponding to a thymeleaf template
      */
-    public String noteGetById(String id, Model model) {
-        Note note = noteService.getById(id);
+    public String noteGetById(String id, Model model, HttpHeaders headers) {
+        Note note = noteService.getById(id, headers);
         model.addAttribute("note", note);
         return "note/getById";
     }
@@ -108,8 +115,8 @@ public class NoteController {
      * @param model
      * @return A String corresponding to a thymeleaf template
      */
-    public String noteGetByPatientId(Integer patientId, Model model) {
-        List<Note> noteList = noteService.getByPatientId(patientId);
+    public String noteGetByPatientId(Integer patientId, Model model, HttpHeaders headers) {
+        List<Note> noteList = noteService.getByPatientId(patientId, headers);
         model.addAttribute("noteList", noteList);
         return "note/getByPatientId";
     }

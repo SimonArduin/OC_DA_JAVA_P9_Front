@@ -2,6 +2,7 @@ package com.medilabo.front.controller;
 
 import com.medilabo.front.dto.LoginInfoDto;
 import com.medilabo.front.service.LoginService;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +37,9 @@ public class LoginController {
      * @return Redirects to /home
      */
     @PostMapping("login")
-    public String loginPost(LoginInfoDto loginInfoDto) {
+    public String loginPost(LoginInfoDto loginInfoDto, HttpSession session) {
         logger.info("login request");
-        loginService.login(loginInfoDto);
+        loginService.login(loginInfoDto, session);
         return "redirect:home";
     }
 
@@ -47,9 +48,9 @@ public class LoginController {
      * @return Redirects to /login
      */
     @GetMapping("logout")
-    public String logout() {
+    public String logout(HttpSession session) {
         logger.info("logout request");
-            loginService.logout();
+        loginService.logout(session);
         return "redirect:login";
     }
 

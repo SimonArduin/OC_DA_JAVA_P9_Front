@@ -5,32 +5,30 @@ import com.medilabo.front.domain.Patient;
 import com.medilabo.front.service.NoteService;
 import com.medilabo.front.service.PatientService;
 import com.medilabo.front.service.PredictionService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping("/patient")
-public class PatientController {
+public class PatientController extends BasicController {
     @Value("${patient.url}")
     private String PATIENT_URL;
-
-    private final WebClient webClient;
     private final PatientService patientService;
     private final PredictionService predictionService;
     private final NoteService noteService;
 
     @Autowired
-    public PatientController(WebClient.Builder webClientBuilder, PatientService patientService, PredictionService predictionService, NoteService noteService) {
-        this.webClient = webClientBuilder.baseUrl(PATIENT_URL).build();
+    public PatientController(PatientService patientService, PredictionService predictionService, NoteService noteService) {
         this.patientService = patientService;
         this.predictionService = predictionService;
         this.noteService = noteService;
@@ -65,8 +63,12 @@ public class PatientController {
      * @return Redirects to /add
      */
     @PostMapping(value = "add", consumes = "application/x-www-form-urlencoded")
-    public String validatePatientAdd(Patient patient) {
-        patientService.add(patient);
+    public String validatePatientAdd(Patient patient, HttpSession session) {
+        HttpHeaders headers = getHeaders(session);
+        if (headers.isEmpty()) {
+            return redirectToLogin();
+        }
+        patientService.add(patient, headers);
         return "redirect:add";
     }
 
@@ -79,17 +81,21 @@ public class PatientController {
      * @return A String corresponding to a thymeleaf template
      */
     @GetMapping("get")
-    public String patientGet(Integer id, Model model) {
+    public String patientGet(Integer id, Model model, HttpSession session) {
+        HttpHeaders headers = getHeaders(session);
+        if (headers.isEmpty()) {
+            return redirectToLogin();
+        }
 
         // get patient
-        Patient patient = patientService.get(id);
+        Patient patient = patientService.get(id, headers);
         model.addAttribute("patient", patient);
 
         // get notes if authorized
         List<Note> noteList = new ArrayList<>();
         Boolean noteAuthorized = false;
         try {
-            noteList = noteService.getByPatientId(id);
+            noteList = noteService.getByPatientId(id, headers);
             noteAuthorized = true;
         }
         catch (Exception exception) {}
@@ -100,7 +106,7 @@ public class PatientController {
         String prediction = null;
         Boolean predictionAuthorized = false;
         try {
-            prediction = predictionService.getById(id);
+            prediction = predictionService.getById(id, headers);
             predictionAuthorized = true;
         }
         catch (Exception exception) {}
@@ -115,8 +121,12 @@ public class PatientController {
      * @return Redirects to /home
      */
     @GetMapping("home")
-    public String patientHome(Model model) {
-        List<Patient> patientList = patientService.getAll();
+    public String patientHome(Model model, HttpSession session) {
+        HttpHeaders headers = getHeaders(session);
+        if (headers.isEmpty()) {
+            return redirectToLogin();
+        }
+        List<Patient> patientList = patientService.getAll(headers);
         model.addAttribute("patientList", patientList);
         return "patient/home";
     }
@@ -128,8 +138,12 @@ public class PatientController {
      * @return A String corresponding to a thymeleaf template
      */
     @GetMapping("update/{id}")
-    public String patientUpdate(@PathVariable Integer id, Model model) {
-        Patient patient = patientService.get(id);
+    public String patientUpdate(@PathVariable Integer id, Model model, HttpSession session) {
+        HttpHeaders headers = getHeaders(session);
+        if (headers.isEmpty()) {
+            return redirectToLogin();
+        }
+        Patient patient = patientService.get(id, headers);
         model.addAttribute("patient", patient);
         return "patient/update";
     }
@@ -141,8 +155,12 @@ public class PatientController {
      * @return A String corresponding to a thymeleaf template
      */
     @PostMapping(value = "update/{id}", consumes = "application/x-www-form-urlencoded")
-    public String validatePatientUpdate(@PathVariable Integer id, Patient patient) {
-        patientService.update(id, patient);
+    public String validatePatientUpdate(@PathVariable Integer id, Patient patient, HttpSession session) {
+        HttpHeaders headers = getHeaders(session);
+        if (headers.isEmpty()) {
+            return redirectToLogin();
+        }
+        patientService.update(id, patient, headers);
         return "redirect:../get?id=" + id;
     }
 

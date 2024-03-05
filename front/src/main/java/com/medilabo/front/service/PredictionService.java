@@ -15,16 +15,7 @@ public class PredictionService {
     @Value("${prediction.url}")
     private String PREDICTION_URL;
 
-    private final HeadersUtil headersUtil;
-    private final HttpHeaders headers;
-
-    @Autowired
-    public PredictionService(HeadersUtil headersUtil) {
-        this.headersUtil = headersUtil;
-        this.headers = headersUtil.getHeaders();
-    }
-
-    public String getById(Integer id) {
+    public String getById(Integer id, HttpHeaders headers) {
         HttpEntity request = new HttpEntity<>(null, headers);
         String prediction = new RestTemplate().exchange(PREDICTION_URL + "get?id=" + id, HttpMethod.GET, request, String.class).getBody();
         return prediction;

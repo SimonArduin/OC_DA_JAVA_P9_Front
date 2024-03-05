@@ -18,27 +18,18 @@ public class NoteService {
     @Value("${note.url}")
     private String NOTE_URL;
 
-    private final HeadersUtil headersUtil;
-    private final HttpHeaders headers;
-
-    @Autowired
-    public NoteService(HeadersUtil headersUtil) {
-        this.headersUtil = headersUtil;
-        this.headers = headersUtil.getHeaders();
-    }
-
-    public void add(Note note) {
+    public void add(Note note, HttpHeaders headers) {
         HttpEntity request = new HttpEntity<>(note.toJson().toString(), headers);
         new RestTemplate().postForObject(NOTE_URL + "add", request, String.class);
     }
 
-    public Note getById(String id) {
+    public Note getById(String id, HttpHeaders headers) {
         HttpEntity request = new HttpEntity<>(null, headers);
         Note note = new RestTemplate().exchange(NOTE_URL + "getbyid?id=" + id, HttpMethod.GET, request, Note.class).getBody();
         return note;
     }
 
-    public List<Note> getByPatientId(Integer patientId) {
+    public List<Note> getByPatientId(Integer patientId, HttpHeaders headers) {
         HttpEntity request = new HttpEntity<>(null, headers);
         List<Note> noteList = new RestTemplate().exchange(NOTE_URL + "getbypatientid?patientId=" + patientId, HttpMethod.GET, request, List.class).getBody();
         return noteList;

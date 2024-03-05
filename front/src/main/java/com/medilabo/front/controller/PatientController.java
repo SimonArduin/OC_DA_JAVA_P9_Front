@@ -5,6 +5,7 @@ import com.medilabo.front.domain.Patient;
 import com.medilabo.front.service.NoteService;
 import com.medilabo.front.service.PatientService;
 import com.medilabo.front.service.PredictionService;
+import com.medilabo.front.util.HeadersUtil;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,23 +21,30 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/patient")
-public class PatientController extends BasicController {
+public class PatientController {
     @Value("${patient.url}")
     private String PATIENT_URL;
     private final PatientService patientService;
     private final PredictionService predictionService;
     private final NoteService noteService;
+    private final HeadersUtil headersUtil;
 
     @Autowired
-    public PatientController(PatientService patientService, PredictionService predictionService, NoteService noteService) {
+    public PatientController(PatientService patientService, PredictionService predictionService, NoteService noteService, HeadersUtil headersUtil) {
         this.patientService = patientService;
         this.predictionService = predictionService;
         this.noteService = noteService;
+        this.headersUtil = headersUtil;
+    }
+
+    public String redirectToLogin() {
+        return "redirect:../login";
     }
 
     /**
      * This methods is called when a 401 - unauthorized exception is thrown.
      * It redirects the user to the login page.
+     *
      * @param exception
      * @return Redirects to /login
      */
@@ -48,6 +56,7 @@ public class PatientController extends BasicController {
 
     /**
      * This method displays the addPatient form.
+     *
      * @param model
      * @return A String corresponding to a thymeleaf template
      */
@@ -59,17 +68,23 @@ public class PatientController extends BasicController {
 
     /**
      * This method consumes the addPatient form.
+     *
      * @param patient
+     * @param session
      * @return Redirects to /add
      */
     @PostMapping(value = "add", consumes = "application/x-www-form-urlencoded")
     public String validatePatientAdd(Patient patient, HttpSession session) {
-        HttpHeaders headers = getHeaders(session);
+        HttpHeaders headers = headersUtil.getHeaders(session);
         if (headers.isEmpty()) {
             return redirectToLogin();
         }
-        patientService.add(patient, headers);
-        return "redirect:add";
+        try {
+            patientService.add(patient, headers);
+            return "redirect:add";
+        } catch (HttpClientErrorException.Unauthorized exception) {
+            return handleUnauthorizedException(exception);
+        }
     }
 
     /**
@@ -78,18 +93,23 @@ public class PatientController extends BasicController {
      *
      * @param id
      * @param model
+     * @param session
      * @return A String corresponding to a thymeleaf template
      */
     @GetMapping("get")
     public String patientGet(Integer id, Model model, HttpSession session) {
-        HttpHeaders headers = getHeaders(session);
+        HttpHeaders headers = headersUtil.getHeaders(session);
         if (headers.isEmpty()) {
             return redirectToLogin();
         }
 
         // get patient
-        Patient patient = patientService.get(id, headers);
-        model.addAttribute("patient", patient);
+        try {
+            Patient patient = patientService.get(id, headers);
+            model.addAttribute("patient", patient);
+        } catch (HttpClientErrorException.Unauthorized exception) {
+            return handleUnauthorizedException(exception);
+        }
 
         // get notes if authorized
         List<Note> noteList = new ArrayList<>();
@@ -117,51 +137,70 @@ public class PatientController extends BasicController {
     }
 
     /**
+     * This method returns a list of all patients
      *
+     * @param session
      * @return Redirects to /home
      */
     @GetMapping("home")
     public String patientHome(Model model, HttpSession session) {
-        HttpHeaders headers = getHeaders(session);
+        HttpHeaders headers = headersUtil.getHeaders(session);
         if (headers.isEmpty()) {
             return redirectToLogin();
         }
-        List<Patient> patientList = patientService.getAll(headers);
-        model.addAttribute("patientList", patientList);
-        return "patient/home";
+
+        try {
+            List<Patient> patientList = patientService.getAll(headers);
+            model.addAttribute("patientList", patientList);
+            return "patient/home";
+        } catch (HttpClientErrorException.Unauthorized exception) {
+            return handleUnauthorizedException(exception);
+        }
     }
 
     /**
      * This method displays the update form for a specific patient.
+     *
      * @param id
      * @param model
+     * @param session
      * @return A String corresponding to a thymeleaf template
      */
     @GetMapping("update/{id}")
     public String patientUpdate(@PathVariable Integer id, Model model, HttpSession session) {
-        HttpHeaders headers = getHeaders(session);
+        HttpHeaders headers = headersUtil.getHeaders(session);
         if (headers.isEmpty()) {
             return redirectToLogin();
         }
-        Patient patient = patientService.get(id, headers);
-        model.addAttribute("patient", patient);
-        return "patient/update";
+        try {
+            Patient patient = patientService.get(id, headers);
+            model.addAttribute("patient", patient);
+            return "patient/update";
+        } catch (HttpClientErrorException.Unauthorized exception) {
+            return handleUnauthorizedException(exception);
+        }
     }
 
     /**
      * This method consumes the update form.
+     *
      * @param id
      * @param patient
+     * @param session
      * @return A String corresponding to a thymeleaf template
      */
     @PostMapping(value = "update/{id}", consumes = "application/x-www-form-urlencoded")
     public String validatePatientUpdate(@PathVariable Integer id, Patient patient, HttpSession session) {
-        HttpHeaders headers = getHeaders(session);
+        HttpHeaders headers = headersUtil.getHeaders(session);
         if (headers.isEmpty()) {
             return redirectToLogin();
         }
-        patientService.update(id, patient, headers);
-        return "redirect:../get?id=" + id;
+        try {
+            patientService.update(id, patient, headers);
+            return "redirect:../get?id=" + id;
+        } catch (HttpClientErrorException.Unauthorized exception) {
+            return handleUnauthorizedException(exception);
+        }
     }
 
 }

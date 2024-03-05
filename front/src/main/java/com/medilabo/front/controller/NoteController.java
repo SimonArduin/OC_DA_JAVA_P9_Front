@@ -2,6 +2,7 @@ package com.medilabo.front.controller;
 
 import com.medilabo.front.domain.Note;
 import com.medilabo.front.service.NoteService;
+import com.medilabo.front.util.HeadersUtil;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,15 +17,21 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/note")
-public class NoteController extends BasicController {
+public class NoteController {
 
     @Value("${note.url}")
     private String NOTE_URL;
     private final NoteService noteService;
+    private final HeadersUtil headersUtil;
 
     @Autowired
-    public NoteController(NoteService noteService) {
+    public NoteController(NoteService noteService, HeadersUtil headersUtil) {
         this.noteService = noteService;
+        this.headersUtil = headersUtil;
+    }
+
+    public String redirectToLogin() {
+        return "redirect:../login";
     }
 
     /**
@@ -65,11 +72,12 @@ public class NoteController extends BasicController {
     /**
      * This method consumes the addNote form.
      * @param note
+     * @param session
      * @return Redirects to /add
      */
     @PostMapping(value = "add", consumes = "application/x-www-form-urlencoded")
     public String validateNoteAdd(Note note, HttpSession session) {
-        HttpHeaders headers = getHeaders(session);
+        HttpHeaders headers = headersUtil.getHeaders(session);
         if (headers.isEmpty()) {
             return redirectToLogin();
         }
@@ -82,11 +90,12 @@ public class NoteController extends BasicController {
      * @param id
      * @param patientId
      * @param model
+     * @param session
      * @return A String corresponding to a thymeleaf template
      */
     @GetMapping("get")
     public String noteGet(String id, Integer patientId, Model model, HttpSession session) {
-        HttpHeaders headers = getHeaders(session);
+        HttpHeaders headers = headersUtil.getHeaders(session);
         if (headers.isEmpty()) {
             return redirectToLogin();
         }
@@ -101,6 +110,7 @@ public class NoteController extends BasicController {
      * This method displays informations on a specific note.
      * @param id
      * @param model
+     * @param headers
      * @return A String corresponding to a thymeleaf template
      */
     public String noteGetById(String id, Model model, HttpHeaders headers) {
@@ -113,6 +123,7 @@ public class NoteController extends BasicController {
      * This methods displays all notes with a specific patientId.
      * @param patientId
      * @param model
+     * @param headers
      * @return A String corresponding to a thymeleaf template
      */
     public String noteGetByPatientId(Integer patientId, Model model, HttpHeaders headers) {

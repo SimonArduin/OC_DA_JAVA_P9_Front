@@ -1,6 +1,7 @@
 package com.medilabo.front.util;
 
 import com.medilabo.front.dto.LoginInfoDto;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -11,6 +12,20 @@ import java.util.Base64;
 
 @Component
 public class HeadersUtil {
+
+    public HttpHeaders getHeaders(HttpSession session) {
+        HttpHeaders defaultHeaders = new HttpHeaders();
+        try {
+            HttpHeaders headers = (HttpHeaders) session.getAttribute("headers");
+            if(headers==null || headers.isEmpty()) {
+                return defaultHeaders;
+            }
+            return headers;
+        }
+        catch (Exception e) {
+            return defaultHeaders;
+        }
+    }
 
     public HttpHeaders login(LoginInfoDto loginInfoDto) {
 

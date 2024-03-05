@@ -34,6 +34,7 @@ public class LoginController {
     /**
      * This methods consumes the login form and sends it to HeadersUtil.
      * @param loginInfoDto
+     * @param session
      * @return Redirects to /home
      */
     @PostMapping("login")
@@ -45,6 +46,7 @@ public class LoginController {
 
     /**
      * This methods logs out the user.
+     * @param session
      * @return Redirects to /login
      */
     @GetMapping("logout")

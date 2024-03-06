@@ -7,14 +7,12 @@ public class Note {
 
     private String id;
     private Integer patientId;
-    private String patient;
     private String note;
 
     public Note() {}
 
-    public Note(Integer patientId, String patient, String note) {
+    public Note(Integer patientId, String note) {
         this.patientId = patientId;
-        this.patient = patient;
         this.note = note;
     }
 
@@ -23,7 +21,7 @@ public class Note {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Note note1 = (Note) o;
-        return Objects.equals(patientId, note1.patientId) && Objects.equals(patient, note1.patient) && Objects.equals(note, note1.note);
+        return Objects.equals(patientId, note1.patientId) && Objects.equals(note, note1.note);
     }
 
     public String toJson() {
@@ -50,14 +48,6 @@ public class Note {
 
     public void setPatientId(Integer patientId) {
         this.patientId = patientId;
-    }
-
-    public String getPatient() {
-        return patient;
-    }
-
-    public void setPatient(String patient) {
-        this.patient = patient;
     }
 
     public String getNote() {

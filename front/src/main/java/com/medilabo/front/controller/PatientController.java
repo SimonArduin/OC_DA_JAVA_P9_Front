@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,36 +20,24 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/patient")
-public class PatientController {
+public class PatientController extends BasicController {
     @Value("${patient.url}")
     private String PATIENT_URL;
     private final PatientService patientService;
     private final PredictionService predictionService;
     private final NoteService noteService;
-    private final HeadersUtil headersUtil;
+
+    private HttpHeaders headers = null;
 
     @Autowired
     public PatientController(PatientService patientService, PredictionService predictionService, NoteService noteService, HeadersUtil headersUtil) {
+        super(headersUtil);
         this.patientService = patientService;
         this.predictionService = predictionService;
         this.noteService = noteService;
-        this.headersUtil = headersUtil;
     }
 
     public String redirectToLogin() {
-        return "redirect:../login";
-    }
-
-    /**
-     * This methods is called when a 401 - unauthorized exception is thrown.
-     * It redirects the user to the login page.
-     *
-     * @param exception
-     * @return Redirects to /login
-     */
-    @ExceptionHandler(HttpClientErrorException.Unauthorized.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public String handleUnauthorizedException(HttpClientErrorException.Unauthorized exception) {
         return "redirect:../login";
     }
 
@@ -71,19 +58,21 @@ public class PatientController {
      *
      * @param patient
      * @param session
-     * @return Redirects to /add
+     * @return Redirects to /home
      */
     @PostMapping(value = "add", consumes = "application/x-www-form-urlencoded")
     public String validatePatientAdd(Patient patient, HttpSession session) {
-        HttpHeaders headers = headersUtil.getHeaders(session);
-        if (headers.isEmpty()) {
+        String auth = null;
+        try {
+            auth = headersUtil.getAuthentication(session);
+        } catch (HttpClientErrorException exception) {
             return redirectToLogin();
         }
         try {
-            patientService.add(patient, headers);
-            return "redirect:add";
+            patientService.add(patient, auth);
+            return "redirect:home";
         } catch (HttpClientErrorException.Unauthorized exception) {
-            return handleUnauthorizedException(exception);
+            return redirectToLogin();
         }
     }
 
@@ -98,27 +87,29 @@ public class PatientController {
      */
     @GetMapping("get")
     public String patientGet(Integer id, Model model, HttpSession session) {
-        HttpHeaders headers = headersUtil.getHeaders(session);
-        if (headers.isEmpty()) {
+        String auth = null;
+        try {
+            auth = headersUtil.getAuthentication(session);
+        } catch (HttpClientErrorException exception) {
             return redirectToLogin();
         }
 
         // get patient
         try {
-            Patient patient = patientService.get(id, headers);
+            Patient patient = patientService.get(id, auth);
             model.addAttribute("patient", patient);
-        } catch (HttpClientErrorException.Unauthorized exception) {
-            return handleUnauthorizedException(exception);
+        } catch (HttpClientErrorException exception) {
+            return redirectToLogin();
         }
 
         // get notes if authorized
         List<Note> noteList = new ArrayList<>();
         Boolean noteAuthorized = false;
         try {
-            noteList = noteService.getByPatientId(id, headers);
+            noteList = noteService.getByPatientId(id, auth);
             noteAuthorized = true;
         }
-        catch (Exception exception) {}
+        catch (HttpClientErrorException.Forbidden exception) {}
         model.addAttribute("noteList", noteList);
         model.addAttribute("noteAuthorized", noteAuthorized);
 
@@ -126,10 +117,10 @@ public class PatientController {
         String prediction = null;
         Boolean predictionAuthorized = false;
         try {
-            prediction = predictionService.getById(id, headers);
+            prediction = predictionService.getById(id, auth);
             predictionAuthorized = true;
         }
-        catch (Exception exception) {}
+        catch (HttpClientErrorException.Forbidden exception) {}
         model.addAttribute("prediction", prediction);
         model.addAttribute("predictionAuthorized", predictionAuthorized);
 
@@ -144,17 +135,18 @@ public class PatientController {
      */
     @GetMapping("home")
     public String patientHome(Model model, HttpSession session) {
-        HttpHeaders headers = headersUtil.getHeaders(session);
-        if (headers.isEmpty()) {
+        String auth = null;
+        try {
+            auth = headersUtil.getAuthentication(session);
+        } catch (HttpClientErrorException exception) {
             return redirectToLogin();
         }
-
         try {
-            List<Patient> patientList = patientService.getAll(headers);
+            List<Patient> patientList = patientService.getAll(auth);
             model.addAttribute("patientList", patientList);
             return "patient/home";
-        } catch (HttpClientErrorException.Unauthorized exception) {
-            return handleUnauthorizedException(exception);
+        } catch (HttpClientErrorException exception) {
+            return redirectToLogin();
         }
     }
 
@@ -168,16 +160,18 @@ public class PatientController {
      */
     @GetMapping("update/{id}")
     public String patientUpdate(@PathVariable Integer id, Model model, HttpSession session) {
-        HttpHeaders headers = headersUtil.getHeaders(session);
-        if (headers.isEmpty()) {
+        String auth = null;
+        try {
+            auth = headersUtil.getAuthentication(session);
+        } catch (HttpClientErrorException exception) {
             return redirectToLogin();
         }
         try {
-            Patient patient = patientService.get(id, headers);
+            Patient patient = patientService.get(id, auth);
             model.addAttribute("patient", patient);
             return "patient/update";
-        } catch (HttpClientErrorException.Unauthorized exception) {
-            return handleUnauthorizedException(exception);
+        } catch (HttpClientErrorException exception) {
+            return redirectToLogin();
         }
     }
 
@@ -191,15 +185,17 @@ public class PatientController {
      */
     @PostMapping(value = "update/{id}", consumes = "application/x-www-form-urlencoded")
     public String validatePatientUpdate(@PathVariable Integer id, Patient patient, HttpSession session) {
-        HttpHeaders headers = headersUtil.getHeaders(session);
-        if (headers.isEmpty()) {
+        String auth = null;
+        try {
+            auth = headersUtil.getAuthentication(session);
+        } catch (HttpClientErrorException exception) {
             return redirectToLogin();
         }
         try {
-            patientService.update(id, patient, headers);
+            patientService.update(id, patient, auth);
             return "redirect:../get?id=" + id;
-        } catch (HttpClientErrorException.Unauthorized exception) {
-            return handleUnauthorizedException(exception);
+        } catch (HttpClientErrorException exception) {
+            return redirectToLogin();
         }
     }
 

@@ -1,5 +1,6 @@
 package com.medilabo.front.domain;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONObject;
 
 import java.util.Objects;
 
@@ -24,14 +25,13 @@ public class Note {
         return Objects.equals(patientId, note1.patientId) && Objects.equals(note, note1.note);
     }
 
-    public String toJson() {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.writeValueAsString(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "{}";
-        }
+    public JSONObject toJson() {
+        JSONObject noteJson = new JSONObject();
+        noteJson.put("id", this.id);
+        noteJson.put("patientId", this.patientId);
+        noteJson.put("note", this.note);
+
+        return noteJson;
     }
 
     public String getId() {

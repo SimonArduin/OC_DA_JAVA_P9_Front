@@ -1,37 +1,28 @@
 package com.medilabo.front.service;
 
 import com.medilabo.front.domain.Note;
-import com.medilabo.front.util.HeadersUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 @Service
-public class NoteService {
+public class NoteService extends BasicService {
 
     @Value("${note.url}")
     private String NOTE_URL;
 
-    public void add(Note note, HttpHeaders headers) {
-        HttpEntity request = new HttpEntity<>(note.toJson().toString(), headers);
-        new RestTemplate().postForObject(NOTE_URL + "add", request, String.class);
+    public void add(Note note, String auth) {
+        getRestTemplate(auth, note.toJson()).postForObject(NOTE_URL + "add", null, String.class);
     }
 
-    public Note getById(String id, HttpHeaders headers) {
-        HttpEntity request = new HttpEntity<>(null, headers);
-        Note note = new RestTemplate().exchange(NOTE_URL + "getbyid?id=" + id, HttpMethod.GET, request, Note.class).getBody();
+    public Note getById(String id, String auth) {
+        Note note = getRestTemplate(auth).getForEntity(NOTE_URL + "getbyid?id=" + id, Note.class).getBody();
         return note;
     }
 
-    public List<Note> getByPatientId(Integer patientId, HttpHeaders headers) {
-        HttpEntity request = new HttpEntity<>(null, headers);
-        List<Note> noteList = new RestTemplate().exchange(NOTE_URL + "getbypatientid?patientId=" + patientId, HttpMethod.GET, request, List.class).getBody();
+    public List<Note> getByPatientId(Integer patientId, String auth) {
+        List<Note> noteList = getRestTemplate(auth).getForEntity(NOTE_URL + "getbypatientid?patientId=" + patientId, List.class).getBody();
         return noteList;
     }
 }

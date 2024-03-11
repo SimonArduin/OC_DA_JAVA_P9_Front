@@ -23,10 +23,11 @@
                 <td>Note</td>
             </tr>
             <tr>
-                <td><input type="text" th:field="*{patientId}" id="patientId" placeholder="patient id"></td>
+                <td th:text="${note.patientId}" id="patientId" placeholder="patient id"></td>
                 <td><input type="text" th:field="*{note}" id="note" placeholder="note"></td>
             </tr>
         </table>
+        <input type="hidden" th:field="*{patientId}" value="patientId">
         <button class="btn btn-primary btn-sm" type="submit">Add note</button>
     </form>
 </div>

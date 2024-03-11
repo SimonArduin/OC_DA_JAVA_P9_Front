@@ -6,8 +6,6 @@ import com.medilabo.front.util.HeadersUtil;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,32 +15,19 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/note")
-public class NoteController {
+public class NoteController extends BasicController {
 
     @Value("${note.url}")
     private String NOTE_URL;
     private final NoteService noteService;
-    private final HeadersUtil headersUtil;
 
     @Autowired
-    public NoteController(NoteService noteService, HeadersUtil headersUtil) {
+    public NoteController(HeadersUtil headersUtil, NoteService noteService) {
+        super(headersUtil);
         this.noteService = noteService;
-        this.headersUtil = headersUtil;
     }
 
     public String redirectToLogin() {
-        return "redirect:../login";
-    }
-
-    /**
-     * This methods is called when a 401 - unauthorized exception is thrown.
-     * It redirects the user to the login page.
-     * @param exception
-     * @return Redirects to /login
-     */
-    @ExceptionHandler(HttpClientErrorException.Unauthorized.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public String handleUnauthorizedException(HttpClientErrorException.Unauthorized exception) {
         return "redirect:../login";
     }
 
@@ -73,16 +58,18 @@ public class NoteController {
      * This method consumes the addNote form.
      * @param note
      * @param session
-     * @return Redirects to /add
+     * @return Redirects to /home
      */
     @PostMapping(value = "add", consumes = "application/x-www-form-urlencoded")
     public String validateNoteAdd(Note note, HttpSession session) {
-        HttpHeaders headers = headersUtil.getHeaders(session);
-        if (headers.isEmpty()) {
+        String auth = null;
+        try {
+            auth = headersUtil.getAuthentication(session);
+        } catch (HttpClientErrorException exception) {
             return redirectToLogin();
         }
-        noteService.add(note, headers);
-        return "redirect:add";
+        noteService.add(note, auth);
+        return "redirect:../patient/get?id=" + note.getPatientId();
     }
 
     /**
@@ -95,14 +82,16 @@ public class NoteController {
      */
     @GetMapping("get")
     public String noteGet(String id, Integer patientId, Model model, HttpSession session) {
-        HttpHeaders headers = headersUtil.getHeaders(session);
-        if (headers.isEmpty()) {
+        String auth = null;
+        try {
+            auth = headersUtil.getAuthentication(session);
+        } catch (HttpClientErrorException exception) {
             return redirectToLogin();
         }
         if (id != null)
-            return noteGetById(id, model, headers);
+            return noteGetById(id, model, auth);
         if (patientId != null)
-            return noteGetByPatientId(patientId, model, headers);
+            return noteGetByPatientId(patientId, model, auth);
         return "error";
     }
 
@@ -110,11 +99,11 @@ public class NoteController {
      * This method displays informations on a specific note.
      * @param id
      * @param model
-     * @param headers
+     * @param auth
      * @return A String corresponding to a thymeleaf template
      */
-    public String noteGetById(String id, Model model, HttpHeaders headers) {
-        Note note = noteService.getById(id, headers);
+    public String noteGetById(String id, Model model, String auth) {
+        Note note = noteService.getById(id, auth);
         model.addAttribute("note", note);
         return "note/getById";
     }
@@ -123,11 +112,11 @@ public class NoteController {
      * This methods displays all notes with a specific patientId.
      * @param patientId
      * @param model
-     * @param headers
+     * @param auth
      * @return A String corresponding to a thymeleaf template
      */
-    public String noteGetByPatientId(Integer patientId, Model model, HttpHeaders headers) {
-        List<Note> noteList = noteService.getByPatientId(patientId, headers);
+    public String noteGetByPatientId(Integer patientId, Model model, String auth) {
+        List<Note> noteList = noteService.getByPatientId(patientId, auth);
         model.addAttribute("noteList", noteList);
         return "note/getByPatientId";
     }

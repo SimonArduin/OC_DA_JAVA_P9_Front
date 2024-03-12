@@ -1,0 +1,4 @@
+[
+  "com/medilabo/front/controller/PatientController",
+  "com/medilabo/front/util/HeadersUtil"
+]

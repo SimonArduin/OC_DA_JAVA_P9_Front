@@ -1,0 +1,251 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "headers": {
+          "sec-fetch-mode": "navigate",
+          "sec-fetch-site": "none",
+          "accept-language": "fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3",
+          "cookie": "JSESSIONID=F9A71C10206126DFB70BCACE1BAF897D; Idea-3063416c=c46ab30d-922b-4702-8701-db2e81883053",
+          "dnt": "1",
+          "sec-fetch-user": "?1",
+          "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+          "sec-gpc": "1",
+          "host": "localhost:8080",
+          "upgrade-insecure-requests": "1",
+          "connection": "keep-alive",
+          "accept-encoding": "gzip, deflate, br",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0",
+          "sec-fetch-dest": "document"
+        },
+        "normalized_path_info": "/patient/home",
+        "path_info": "/patient/home",
+        "protocol": "HTTP/1.1",
+        "request_method": "GET"
+      },
+      "id": 1,
+      "thread_id": 28
+    },
+    {
+      "defined_class": "com.medilabo.front.controller.PatientController",
+      "event": "call",
+      "id": 2,
+      "lineno": 138,
+      "method_id": "patientHome",
+      "parameters": [
+        {
+          "class": "org.springframework.validation.support.BindingAwareModelMap",
+          "kind": "req",
+          "name": "model",
+          "object_id": 309639973,
+          "value": "{}"
+        },
+        {
+          "class": "org.apache.catalina.session.StandardSessionFacade",
+          "kind": "req",
+          "name": "session",
+          "object_id": 414271838,
+          "value": "org.apache.catalina.session.StandardSessionFacade@18b1495e"
+        }
+      ],
+      "path": "front/src/main/java/com/medilabo/front/controller/PatientController.java",
+      "receiver": {
+        "class": "com.medilabo.front.controller.PatientController",
+        "object_id": 1541380414,
+        "value": "com.medilabo.front.controller.PatientController@5bdf993e"
+      },
+      "static": false,
+      "thread_id": 28
+    },
+    {
+      "defined_class": "com.medilabo.front.util.HeadersUtil",
+      "event": "call",
+      "id": 3,
+      "lineno": 27,
+      "method_id": "getAuthentication",
+      "parameters": [
+        {
+          "class": "org.apache.catalina.session.StandardSessionFacade",
+          "kind": "req",
+          "name": "session",
+          "object_id": 414271838,
+          "value": "org.apache.catalina.session.StandardSessionFacade@18b1495e"
+        }
+      ],
+      "path": "front/src/main/java/com/medilabo/front/util/HeadersUtil.java",
+      "receiver": {
+        "class": "com.medilabo.front.util.HeadersUtil",
+        "object_id": 576243207,
+        "value": "com.medilabo.front.util.HeadersUtil@2258c607"
+      },
+      "static": false,
+      "thread_id": 28
+    },
+    {
+      "elapsed": 0.00090027,
+      "event": "return",
+      "exceptions": [
+        {
+          "class": "org.springframework.web.client.HttpClientErrorException",
+          "lineno": 37,
+          "message": "401 UNAUTHORIZED",
+          "object_id": 2098882478,
+          "path": "HeadersUtil.java"
+        }
+      ],
+      "id": 4,
+      "parent_id": 3,
+      "thread_id": 28
+    },
+    {
+      "defined_class": "com.medilabo.front.controller.PatientController",
+      "event": "call",
+      "id": 5,
+      "lineno": 41,
+      "method_id": "redirectToLogin",
+      "path": "front/src/main/java/com/medilabo/front/controller/PatientController.java",
+      "receiver": {
+        "class": "com.medilabo.front.controller.PatientController",
+        "object_id": 1541380414,
+        "value": "com.medilabo.front.controller.PatientController@5bdf993e"
+      },
+      "static": false,
+      "thread_id": 28
+    },
+    {
+      "elapsed": 0.00040005,
+      "event": "return",
+      "id": 6,
+      "parent_id": 5,
+      "return_value": {
+        "class": "java.lang.String",
+        "object_id": 27366664,
+        "value": "redirect:../login"
+      },
+      "thread_id": 28
+    },
+    {
+      "elapsed": 0.00329998,
+      "event": "return",
+      "id": 7,
+      "parent_id": 2,
+      "return_value": {
+        "class": "java.lang.String",
+        "object_id": 27366664,
+        "value": "redirect:../login"
+      },
+      "thread_id": 28
+    },
+    {
+      "elapsed": 0.01396449,
+      "event": "return",
+      "http_server_response": {
+        "headers": {
+          "Set-Cookie": "JSESSIONID=61F243DCC0D554C0D93E56F599048216; Path=/; HttpOnly",
+          "Location": "http://localhost:8080/login"
+        },
+        "status": 302
+      },
+      "id": 8,
+      "parent_id": 1,
+      "thread_id": 28
+    }
+  ],
+  "version": "1.2",
+  "metadata": {
+    "name": "GET /patient/home (302) - 17:06:27.973",
+    "app": "OC_DA_JAVA_P9_Front",
+    "language": {
+      "name": "java",
+      "version": "17.0.7+7",
+      "engine": "OpenJDK 64-Bit Server VM"
+    },
+    "client": {
+      "name": "appmap-java",
+      "url": "https://github.com/appland/appmap-java"
+    },
+    "recorder": {
+      "name": "request_recording",
+      "type": "requests"
+    },
+    "recording": {},
+    "git": {
+      "repository": "https://github.com/SimonArduin/OC_DA_JAVA_P9_Front.git",
+      "branch": "dev",
+      "commit": "000bc4e40393a4c3c9be346b116b9043d525e2dd"
+    }
+  },
+  "classMap": [
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "name": "getAuthentication",
+                          "type": "function",
+                          "static": false,
+                          "location": "front/src/main/java/com/medilabo/front/util/HeadersUtil.java:27"
+                        }
+                      ],
+                      "name": "HeadersUtil",
+                      "type": "class"
+                    }
+                  ],
+                  "name": "util",
+                  "type": "package"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "name": "redirectToLogin",
+                          "type": "function",
+                          "static": false,
+                          "location": "front/src/main/java/com/medilabo/front/controller/PatientController.java:41"
+                        },
+                        {
+                          "name": "patientHome",
+                          "type": "function",
+                          "static": false,
+                          "location": "front/src/main/java/com/medilabo/front/controller/PatientController.java:138"
+                        }
+                      ],
+                      "name": "PatientController",
+                      "type": "class"
+                    }
+                  ],
+                  "name": "controller",
+                  "type": "package"
+                }
+              ],
+              "name": "front",
+              "type": "package"
+            }
+          ],
+          "name": "medilabo",
+          "type": "package"
+        }
+      ],
+      "name": "com",
+      "type": "package"
+    },
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /patient/home"
+        }
+      ]
+    }
+  ]
+}

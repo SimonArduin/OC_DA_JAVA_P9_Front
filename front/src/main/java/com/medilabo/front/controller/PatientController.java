@@ -5,7 +5,6 @@ import com.medilabo.front.domain.Patient;
 import com.medilabo.front.service.NoteService;
 import com.medilabo.front.service.PatientService;
 import com.medilabo.front.service.PredictionService;
-import com.medilabo.front.util.HeadersUtil;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,15 +29,11 @@ public class PatientController extends BasicController {
     private HttpHeaders headers = null;
 
     @Autowired
-    public PatientController(PatientService patientService, PredictionService predictionService, NoteService noteService, HeadersUtil headersUtil) {
-        super(headersUtil);
+    public PatientController(PatientService patientService, PredictionService predictionService, NoteService noteService) {
+        super();
         this.patientService = patientService;
         this.predictionService = predictionService;
         this.noteService = noteService;
-    }
-
-    public String redirectToLogin() {
-        return "redirect:../login";
     }
 
     /**
@@ -64,7 +59,7 @@ public class PatientController extends BasicController {
     public String validatePatientAdd(Patient patient, HttpSession session) {
         String auth = null;
         try {
-            auth = headersUtil.getAuthentication(session);
+            auth = getAuthentication(session);
         } catch (HttpClientErrorException exception) {
             return redirectToLogin();
         }
@@ -89,7 +84,7 @@ public class PatientController extends BasicController {
     public String patientGet(Integer id, Model model, HttpSession session) {
         String auth = null;
         try {
-            auth = headersUtil.getAuthentication(session);
+            auth = getAuthentication(session);
         } catch (HttpClientErrorException exception) {
             return redirectToLogin();
         }
@@ -130,14 +125,15 @@ public class PatientController extends BasicController {
     /**
      * This method returns a list of all patients
      *
+     * @param model
      * @param session
-     * @return Redirects to /home
+     * @return A String corresponding to a thymeleaf template
      */
     @GetMapping("home")
-    public String patientHome(Model model, HttpSession session) {
+    public String home(Model model, HttpSession session) {
         String auth = null;
         try {
-            auth = headersUtil.getAuthentication(session);
+            auth = getAuthentication(session);
         } catch (HttpClientErrorException exception) {
             return redirectToLogin();
         }
@@ -162,7 +158,7 @@ public class PatientController extends BasicController {
     public String patientUpdate(@PathVariable Integer id, Model model, HttpSession session) {
         String auth = null;
         try {
-            auth = headersUtil.getAuthentication(session);
+            auth = getAuthentication(session);
         } catch (HttpClientErrorException exception) {
             return redirectToLogin();
         }
@@ -187,7 +183,7 @@ public class PatientController extends BasicController {
     public String validatePatientUpdate(@PathVariable Integer id, Patient patient, HttpSession session) {
         String auth = null;
         try {
-            auth = headersUtil.getAuthentication(session);
+            auth = getAuthentication(session);
         } catch (HttpClientErrorException exception) {
             return redirectToLogin();
         }

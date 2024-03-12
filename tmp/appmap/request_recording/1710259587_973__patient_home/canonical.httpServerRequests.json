@@ -1,0 +1,7 @@
+[
+  {
+    "route": "GET /patient/home",
+    "parameters": "()",
+    "status": 302
+  }
+]

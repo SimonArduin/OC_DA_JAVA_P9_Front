@@ -1,0 +1,369 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "headers": {
+          "sec-fetch-mode": "navigate",
+          "referer": "http://localhost:8080/patient/get?id=4702",
+          "sec-fetch-site": "same-origin",
+          "accept-language": "fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3",
+          "cookie": "JSESSIONID=61F243DCC0D554C0D93E56F599048216; Idea-3063416c=c46ab30d-922b-4702-8701-db2e81883053",
+          "dnt": "1",
+          "sec-fetch-user": "?1",
+          "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+          "sec-gpc": "1",
+          "host": "localhost:8080",
+          "upgrade-insecure-requests": "1",
+          "connection": "keep-alive",
+          "accept-encoding": "gzip, deflate, br",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0",
+          "sec-fetch-dest": "document"
+        },
+        "normalized_path_info": "/patient/home",
+        "path_info": "/patient/home",
+        "protocol": "HTTP/1.1",
+        "request_method": "GET"
+      },
+      "id": 1,
+      "thread_id": 36
+    },
+    {
+      "defined_class": "com.medilabo.front.controller.PatientController",
+      "event": "call",
+      "id": 2,
+      "lineno": 138,
+      "method_id": "patientHome",
+      "parameters": [
+        {
+          "class": "org.springframework.validation.support.BindingAwareModelMap",
+          "kind": "req",
+          "name": "model",
+          "object_id": 1470484506,
+          "value": "{}"
+        },
+        {
+          "class": "org.apache.catalina.session.StandardSessionFacade",
+          "kind": "req",
+          "name": "session",
+          "object_id": 414271838,
+          "value": "org.apache.catalina.session.StandardSessionFacade@18b1495e"
+        }
+      ],
+      "path": "front/src/main/java/com/medilabo/front/controller/PatientController.java",
+      "receiver": {
+        "class": "com.medilabo.front.controller.PatientController",
+        "object_id": 1541380414,
+        "value": "com.medilabo.front.controller.PatientController@5bdf993e"
+      },
+      "static": false,
+      "thread_id": 36
+    },
+    {
+      "defined_class": "com.medilabo.front.util.HeadersUtil",
+      "event": "call",
+      "id": 3,
+      "lineno": 27,
+      "method_id": "getAuthentication",
+      "parameters": [
+        {
+          "class": "org.apache.catalina.session.StandardSessionFacade",
+          "kind": "req",
+          "name": "session",
+          "object_id": 414271838,
+          "value": "org.apache.catalina.session.StandardSessionFacade@18b1495e"
+        }
+      ],
+      "path": "front/src/main/java/com/medilabo/front/util/HeadersUtil.java",
+      "receiver": {
+        "class": "com.medilabo.front.util.HeadersUtil",
+        "object_id": 576243207,
+        "value": "com.medilabo.front.util.HeadersUtil@2258c607"
+      },
+      "static": false,
+      "thread_id": 36
+    },
+    {
+      "elapsed": 0,
+      "event": "return",
+      "id": 4,
+      "parent_id": 3,
+      "return_value": {
+        "class": "java.lang.String",
+        "object_id": 1402625590,
+        "value": "Basic cGxhbm5lcjpwYXNzd29yZA=="
+      },
+      "thread_id": 36
+    },
+    {
+      "defined_class": "com.medilabo.front.service.PatientService",
+      "event": "call",
+      "id": 5,
+      "lineno": 28,
+      "method_id": "getAll",
+      "parameters": [
+        {
+          "class": "java.lang.String",
+          "kind": "req",
+          "name": "auth",
+          "object_id": 1402625590,
+          "value": "Basic cGxhbm5lcjpwYXNzd29yZA=="
+        }
+      ],
+      "path": "front/src/main/java/com/medilabo/front/service/PatientService.java",
+      "receiver": {
+        "class": "com.medilabo.front.service.PatientService",
+        "object_id": 594774419,
+        "value": "com.medilabo.front.service.PatientService@23738993"
+      },
+      "static": false,
+      "thread_id": 36
+    },
+    {
+      "defined_class": "com.medilabo.front.service.BasicService",
+      "event": "call",
+      "id": 6,
+      "lineno": 12,
+      "method_id": "getRestTemplate",
+      "parameters": [
+        {
+          "class": "java.lang.String",
+          "kind": "req",
+          "name": "authorization",
+          "object_id": 1402625590,
+          "value": "Basic cGxhbm5lcjpwYXNzd29yZA=="
+        }
+      ],
+      "path": "front/src/main/java/com/medilabo/front/service/BasicService.java",
+      "receiver": {
+        "class": "com.medilabo.front.service.PatientService",
+        "object_id": 594774419,
+        "value": "com.medilabo.front.service.PatientService@23738993"
+      },
+      "static": false,
+      "thread_id": 36
+    },
+    {
+      "defined_class": "com.medilabo.front.service.BasicService",
+      "event": "call",
+      "id": 7,
+      "lineno": 16,
+      "method_id": "getRestTemplate",
+      "parameters": [
+        {
+          "class": "java.lang.String",
+          "kind": "req",
+          "name": "authorization",
+          "object_id": 1402625590,
+          "value": "Basic cGxhbm5lcjpwYXNzd29yZA=="
+        },
+        {
+          "class": "org.json.JSONObject",
+          "kind": "req",
+          "name": "arg",
+          "object_id": 0
+        }
+      ],
+      "path": "front/src/main/java/com/medilabo/front/service/BasicService.java",
+      "receiver": {
+        "class": "com.medilabo.front.service.PatientService",
+        "object_id": 594774419,
+        "value": "com.medilabo.front.service.PatientService@23738993"
+      },
+      "static": false,
+      "thread_id": 36
+    },
+    {
+      "elapsed": 0.00019999,
+      "event": "return",
+      "id": 8,
+      "parent_id": 7,
+      "return_value": {
+        "class": "org.springframework.web.client.RestTemplate",
+        "object_id": 1755091860,
+        "value": "org.springframework.web.client.RestTemplate@689c9394"
+      },
+      "thread_id": 36
+    },
+    {
+      "elapsed": 0.00019999,
+      "event": "return",
+      "id": 9,
+      "parent_id": 6,
+      "return_value": {
+        "class": "org.springframework.web.client.RestTemplate",
+        "object_id": 1755091860,
+        "value": "org.springframework.web.client.RestTemplate@689c9394"
+      },
+      "thread_id": 36
+    },
+    {
+      "elapsed": 0.06454885,
+      "event": "return",
+      "id": 10,
+      "parent_id": 5,
+      "return_value": {
+        "class": "java.util.ArrayList",
+        "object_id": 1854274068,
+        "value": "[{idPatient=1, firstName=TestNone, lastName=Test, birthDate=1966-12-31, gender=FEMALE, address=1 Brookside St, phoneNumber=1002223333}, {idPatient=2, firstName=TestBorderline, lastName=Test, birthDate=1945-06-24, gender=MALE, address=2 High St, phoneNumber=2003334444}, {idPatient=3, firstName=TestInDanger, lastName=Test, birthDate=2004-06-18, gender=MALE, address=3 Club Road, phoneNumber=3004445555}, {idPatient=4, firstName=TestEarlyOnset, lastName=Test, birthDate=2002-06-28, gender=FEMALE, address=4 Valley Dr, phoneNumber=4005556666}, {idPatient=4702, firstName=wow, lastName=suchName, birthDate=1010-10-10, gender=MALE, address=ad, phoneNumber=0123456789}, {idPatient=4752, firstName=wow, lastName=la, birthDate=1010-10-10, gender=OTHER, address=ad, phoneNumber=0123456789}]"
+      },
+      "thread_id": 36
+    },
+    {
+      "elapsed": 0.06869377,
+      "event": "return",
+      "id": 11,
+      "parent_id": 2,
+      "return_value": {
+        "class": "java.lang.String",
+        "object_id": 2007450892,
+        "value": "patient/home"
+      },
+      "thread_id": 36
+    },
+    {
+      "elapsed": 0.06922387,
+      "event": "return",
+      "http_server_response": {
+        "headers": {
+          "Transfer-Encoding": "chunked",
+          "Keep-Alive": "timeout=60",
+          "Connection": "keep-alive",
+          "Content-Language": "fr",
+          "Date": "Tue, 12 Mar 2024 16:06:45 GMT",
+          "Content-Type": "text/html;charset=UTF-8"
+        },
+        "status": 200
+      },
+      "id": 12,
+      "parent_id": 1,
+      "thread_id": 36
+    }
+  ],
+  "version": "1.2",
+  "metadata": {
+    "name": "GET /patient/home (200) - 17:06:44.900",
+    "app": "OC_DA_JAVA_P9_Front",
+    "language": {
+      "name": "java",
+      "version": "17.0.7+7",
+      "engine": "OpenJDK 64-Bit Server VM"
+    },
+    "client": {
+      "name": "appmap-java",
+      "url": "https://github.com/appland/appmap-java"
+    },
+    "recorder": {
+      "name": "request_recording",
+      "type": "requests"
+    },
+    "recording": {},
+    "git": {
+      "repository": "https://github.com/SimonArduin/OC_DA_JAVA_P9_Front.git",
+      "branch": "dev",
+      "commit": "000bc4e40393a4c3c9be346b116b9043d525e2dd"
+    }
+  },
+  "classMap": [
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "name": "getAuthentication",
+                          "type": "function",
+                          "static": false,
+                          "location": "front/src/main/java/com/medilabo/front/util/HeadersUtil.java:27"
+                        }
+                      ],
+                      "name": "HeadersUtil",
+                      "type": "class"
+                    }
+                  ],
+                  "name": "util",
+                  "type": "package"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "name": "getAll",
+                          "type": "function",
+                          "static": false,
+                          "location": "front/src/main/java/com/medilabo/front/service/PatientService.java:28"
+                        }
+                      ],
+                      "name": "PatientService",
+                      "type": "class"
+                    },
+                    {
+                      "children": [
+                        {
+                          "name": "getRestTemplate",
+                          "type": "function",
+                          "static": false,
+                          "location": "front/src/main/java/com/medilabo/front/service/BasicService.java:16"
+                        },
+                        {
+                          "name": "getRestTemplate",
+                          "type": "function",
+                          "static": false,
+                          "location": "front/src/main/java/com/medilabo/front/service/BasicService.java:12"
+                        }
+                      ],
+                      "name": "BasicService",
+                      "type": "class"
+                    }
+                  ],
+                  "name": "service",
+                  "type": "package"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "name": "patientHome",
+                          "type": "function",
+                          "static": false,
+                          "location": "front/src/main/java/com/medilabo/front/controller/PatientController.java:138"
+                        }
+                      ],
+                      "name": "PatientController",
+                      "type": "class"
+                    }
+                  ],
+                  "name": "controller",
+                  "type": "package"
+                }
+              ],
+              "name": "front",
+              "type": "package"
+            }
+          ],
+          "name": "medilabo",
+          "type": "package"
+        }
+      ],
+      "name": "com",
+      "type": "package"
+    },
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /patient/home"
+        }
+      ]
+    }
+  ]
+}

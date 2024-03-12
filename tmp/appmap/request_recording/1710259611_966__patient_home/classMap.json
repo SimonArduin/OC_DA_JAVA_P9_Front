@@ -1,0 +1,102 @@
+[
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "name": "getAuthentication",
+                        "type": "function",
+                        "static": false,
+                        "location": "front/src/main/java/com/medilabo/front/util/HeadersUtil.java:27"
+                      }
+                    ],
+                    "name": "HeadersUtil",
+                    "type": "class"
+                  }
+                ],
+                "name": "util",
+                "type": "package"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "name": "getAll",
+                        "type": "function",
+                        "static": false,
+                        "location": "front/src/main/java/com/medilabo/front/service/PatientService.java:28"
+                      }
+                    ],
+                    "name": "PatientService",
+                    "type": "class"
+                  },
+                  {
+                    "children": [
+                      {
+                        "name": "getRestTemplate",
+                        "type": "function",
+                        "static": false,
+                        "location": "front/src/main/java/com/medilabo/front/service/BasicService.java:16"
+                      },
+                      {
+                        "name": "getRestTemplate",
+                        "type": "function",
+                        "static": false,
+                        "location": "front/src/main/java/com/medilabo/front/service/BasicService.java:12"
+                      }
+                    ],
+                    "name": "BasicService",
+                    "type": "class"
+                  }
+                ],
+                "name": "service",
+                "type": "package"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "name": "patientHome",
+                        "type": "function",
+                        "static": false,
+                        "location": "front/src/main/java/com/medilabo/front/controller/PatientController.java:138"
+                      }
+                    ],
+                    "name": "PatientController",
+                    "type": "class"
+                  }
+                ],
+                "name": "controller",
+                "type": "package"
+              }
+            ],
+            "name": "front",
+            "type": "package"
+          }
+        ],
+        "name": "medilabo",
+        "type": "package"
+      }
+    ],
+    "name": "com",
+    "type": "package"
+  },
+  {
+    "type": "http",
+    "name": "HTTP server requests",
+    "children": [
+      {
+        "type": "route",
+        "name": "GET /patient/home"
+      }
+    ]
+  }
+]

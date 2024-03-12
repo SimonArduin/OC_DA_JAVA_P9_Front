@@ -1,0 +1,6 @@
+[
+  {
+    "caller": "GET /logout",
+    "callee": "com/medilabo"
+  }
+]

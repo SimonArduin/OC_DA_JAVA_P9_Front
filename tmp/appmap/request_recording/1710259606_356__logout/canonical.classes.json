@@ -1,0 +1,4 @@
+[
+  "com/medilabo/front/controller/LoginController",
+  "com/medilabo/front/service/LoginService"
+]

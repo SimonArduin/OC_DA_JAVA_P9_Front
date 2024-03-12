@@ -1,0 +1,6 @@
+[
+  "com/medilabo/front/controller/PatientController",
+  "com/medilabo/front/service/BasicService",
+  "com/medilabo/front/service/PatientService",
+  "com/medilabo/front/util/HeadersUtil"
+]

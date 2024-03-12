@@ -1,0 +1,158 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "headers": {
+          "sec-fetch-mode": "navigate",
+          "referer": "http://localhost:8080/patient/home",
+          "sec-fetch-site": "same-origin",
+          "accept-language": "fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3",
+          "cookie": "JSESSIONID=61F243DCC0D554C0D93E56F599048216; Idea-3063416c=c46ab30d-922b-4702-8701-db2e81883053",
+          "dnt": "1",
+          "sec-fetch-user": "?1",
+          "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+          "sec-gpc": "1",
+          "host": "localhost:8080",
+          "upgrade-insecure-requests": "1",
+          "connection": "keep-alive",
+          "accept-encoding": "gzip, deflate, br",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0",
+          "sec-fetch-dest": "document"
+        },
+        "normalized_path_info": "/patient/add",
+        "path_info": "/patient/add",
+        "protocol": "HTTP/1.1",
+        "request_method": "GET"
+      },
+      "id": 1,
+      "thread_id": 33
+    },
+    {
+      "defined_class": "com.medilabo.front.controller.PatientController",
+      "event": "call",
+      "id": 2,
+      "lineno": 52,
+      "method_id": "patientAddForm",
+      "parameters": [
+        {
+          "class": "org.springframework.validation.support.BindingAwareModelMap",
+          "kind": "req",
+          "name": "model",
+          "object_id": 53648742,
+          "value": "{patient=com.medilabo.front.domain.Patient@6449cd86}"
+        }
+      ],
+      "path": "front/src/main/java/com/medilabo/front/controller/PatientController.java",
+      "receiver": {
+        "class": "com.medilabo.front.controller.PatientController",
+        "object_id": 1541380414,
+        "value": "com.medilabo.front.controller.PatientController@5bdf993e"
+      },
+      "static": false,
+      "thread_id": 33
+    },
+    {
+      "elapsed": 0.00009999,
+      "event": "return",
+      "id": 3,
+      "parent_id": 2,
+      "return_value": {
+        "class": "java.lang.String",
+        "object_id": 1108318045,
+        "value": "patient/add"
+      },
+      "thread_id": 33
+    },
+    {
+      "elapsed": 0.00170015,
+      "event": "return",
+      "http_server_response": {
+        "headers": {
+          "Transfer-Encoding": "chunked",
+          "Keep-Alive": "timeout=60",
+          "Connection": "keep-alive",
+          "Content-Language": "fr",
+          "Date": "Tue, 12 Mar 2024 16:06:39 GMT",
+          "Content-Type": "text/html;charset=UTF-8"
+        },
+        "status": 200
+      },
+      "id": 4,
+      "parent_id": 1,
+      "thread_id": 33
+    }
+  ],
+  "version": "1.2",
+  "metadata": {
+    "name": "GET /patient/add (200) - 17:06:39.176",
+    "app": "OC_DA_JAVA_P9_Front",
+    "language": {
+      "name": "java",
+      "version": "17.0.7+7",
+      "engine": "OpenJDK 64-Bit Server VM"
+    },
+    "client": {
+      "name": "appmap-java",
+      "url": "https://github.com/appland/appmap-java"
+    },
+    "recorder": {
+      "name": "request_recording",
+      "type": "requests"
+    },
+    "recording": {},
+    "git": {
+      "repository": "https://github.com/SimonArduin/OC_DA_JAVA_P9_Front.git",
+      "branch": "dev",
+      "commit": "000bc4e40393a4c3c9be346b116b9043d525e2dd"
+    }
+  },
+  "classMap": [
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "name": "patientAddForm",
+                          "type": "function",
+                          "static": false,
+                          "location": "front/src/main/java/com/medilabo/front/controller/PatientController.java:52"
+                        }
+                      ],
+                      "name": "PatientController",
+                      "type": "class"
+                    }
+                  ],
+                  "name": "controller",
+                  "type": "package"
+                }
+              ],
+              "name": "front",
+              "type": "package"
+            }
+          ],
+          "name": "medilabo",
+          "type": "package"
+        }
+      ],
+      "name": "com",
+      "type": "package"
+    },
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "GET /patient/add"
+        }
+      ]
+    }
+  ]
+}

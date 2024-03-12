@@ -1,0 +1,8 @@
+[
+  "com/medilabo/front/controller/PatientController",
+  "com/medilabo/front/service/BasicService",
+  "com/medilabo/front/service/NoteService",
+  "com/medilabo/front/service/PatientService",
+  "com/medilabo/front/service/PredictionService",
+  "com/medilabo/front/util/HeadersUtil"
+]

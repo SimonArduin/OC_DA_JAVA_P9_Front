@@ -1,0 +1,6 @@
+[
+  {
+    "caller": "GET /patient/get",
+    "callee": "com/medilabo"
+  }
+]

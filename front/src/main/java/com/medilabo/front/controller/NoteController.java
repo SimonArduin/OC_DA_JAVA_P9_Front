@@ -2,7 +2,6 @@ package com.medilabo.front.controller;
 
 import com.medilabo.front.domain.Note;
 import com.medilabo.front.service.NoteService;
-import com.medilabo.front.util.HeadersUtil;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,13 +21,9 @@ public class NoteController extends BasicController {
     private final NoteService noteService;
 
     @Autowired
-    public NoteController(HeadersUtil headersUtil, NoteService noteService) {
-        super(headersUtil);
+    public NoteController(NoteService noteService) {
+        super();
         this.noteService = noteService;
-    }
-
-    public String redirectToLogin() {
-        return "redirect:../login";
     }
 
     /**
@@ -64,7 +59,7 @@ public class NoteController extends BasicController {
     public String validateNoteAdd(Note note, HttpSession session) {
         String auth = null;
         try {
-            auth = headersUtil.getAuthentication(session);
+            auth = getAuthentication(session);
         } catch (HttpClientErrorException exception) {
             return redirectToLogin();
         }
@@ -84,7 +79,7 @@ public class NoteController extends BasicController {
     public String noteGet(String id, Integer patientId, Model model, HttpSession session) {
         String auth = null;
         try {
-            auth = headersUtil.getAuthentication(session);
+            auth = getAuthentication(session);
         } catch (HttpClientErrorException exception) {
             return redirectToLogin();
         }

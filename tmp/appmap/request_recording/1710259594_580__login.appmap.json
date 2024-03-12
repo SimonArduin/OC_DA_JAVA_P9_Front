@@ -1,0 +1,289 @@
+{
+  "events": [
+    {
+      "event": "call",
+      "http_server_request": {
+        "headers": {
+          "sec-fetch-mode": "navigate",
+          "content-length": "34",
+          "referer": "http://localhost:8080/login",
+          "sec-fetch-site": "same-origin",
+          "accept-language": "fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3",
+          "cookie": "JSESSIONID=61F243DCC0D554C0D93E56F599048216; Idea-3063416c=c46ab30d-922b-4702-8701-db2e81883053",
+          "origin": "http://localhost:8080",
+          "dnt": "1",
+          "sec-fetch-user": "?1",
+          "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+          "sec-gpc": "1",
+          "host": "localhost:8080",
+          "upgrade-insecure-requests": "1",
+          "content-type": "application/x-www-form-urlencoded",
+          "connection": "keep-alive",
+          "accept-encoding": "gzip, deflate, br",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0",
+          "sec-fetch-dest": "document"
+        },
+        "normalized_path_info": "/login",
+        "path_info": "/login",
+        "protocol": "HTTP/1.1",
+        "request_method": "POST"
+      },
+      "id": 1,
+      "message": [
+        {
+          "class": "java.lang.String",
+          "kind": "req",
+          "name": "username",
+          "object_id": 1255845576,
+          "value": "planner"
+        },
+        {
+          "class": "java.lang.String",
+          "kind": "req",
+          "name": "password",
+          "object_id": 878618702,
+          "value": "password"
+        }
+      ],
+      "thread_id": 30
+    },
+    {
+      "defined_class": "com.medilabo.front.controller.LoginController",
+      "event": "call",
+      "id": 2,
+      "lineno": 42,
+      "method_id": "loginPost",
+      "parameters": [
+        {
+          "class": "com.medilabo.front.dto.LoginInfoDto",
+          "kind": "req",
+          "name": "loginInfoDto",
+          "object_id": 1995918544,
+          "value": "com.medilabo.front.dto.LoginInfoDto@76f74cd0"
+        },
+        {
+          "class": "org.apache.catalina.session.StandardSessionFacade",
+          "kind": "req",
+          "name": "session",
+          "object_id": 414271838,
+          "value": "org.apache.catalina.session.StandardSessionFacade@18b1495e"
+        }
+      ],
+      "path": "front/src/main/java/com/medilabo/front/controller/LoginController.java",
+      "receiver": {
+        "class": "com.medilabo.front.controller.LoginController",
+        "object_id": 1857911655,
+        "value": "com.medilabo.front.controller.LoginController@6ebd7b67"
+      },
+      "static": false,
+      "thread_id": 30
+    },
+    {
+      "defined_class": "com.medilabo.front.service.LoginService",
+      "event": "call",
+      "id": 3,
+      "lineno": 18,
+      "method_id": "login",
+      "parameters": [
+        {
+          "class": "com.medilabo.front.dto.LoginInfoDto",
+          "kind": "req",
+          "name": "loginInfoDto",
+          "object_id": 1995918544,
+          "value": "com.medilabo.front.dto.LoginInfoDto@76f74cd0"
+        },
+        {
+          "class": "org.apache.catalina.session.StandardSessionFacade",
+          "kind": "req",
+          "name": "session",
+          "object_id": 414271838,
+          "value": "org.apache.catalina.session.StandardSessionFacade@18b1495e"
+        }
+      ],
+      "path": "front/src/main/java/com/medilabo/front/service/LoginService.java",
+      "receiver": {
+        "class": "com.medilabo.front.service.LoginService",
+        "object_id": 1451598308,
+        "value": "com.medilabo.front.service.LoginService@5685a1e4"
+      },
+      "static": false,
+      "thread_id": 30
+    },
+    {
+      "defined_class": "com.medilabo.front.util.HeadersUtil",
+      "event": "call",
+      "id": 4,
+      "lineno": 50,
+      "method_id": "login",
+      "parameters": [
+        {
+          "class": "com.medilabo.front.dto.LoginInfoDto",
+          "kind": "req",
+          "name": "loginInfoDto",
+          "object_id": 1995918544,
+          "value": "com.medilabo.front.dto.LoginInfoDto@76f74cd0"
+        }
+      ],
+      "path": "front/src/main/java/com/medilabo/front/util/HeadersUtil.java",
+      "receiver": {
+        "class": "com.medilabo.front.util.HeadersUtil",
+        "object_id": 1196688516,
+        "value": "com.medilabo.front.util.HeadersUtil@47540484"
+      },
+      "static": false,
+      "thread_id": 30
+    },
+    {
+      "elapsed": 0.00039996,
+      "event": "return",
+      "id": 5,
+      "parent_id": 4,
+      "return_value": {
+        "class": "org.springframework.http.HttpHeaders",
+        "object_id": 289744311,
+        "value": "[Content-Type:\"application/json\", Authorization:\"Basic cGxhbm5lcjpwYXNzd29yZA==\"]"
+      },
+      "thread_id": 30
+    },
+    {
+      "elapsed": 0.00049994,
+      "event": "return",
+      "id": 6,
+      "parent_id": 3,
+      "thread_id": 30
+    },
+    {
+      "elapsed": 0.00080203,
+      "event": "return",
+      "id": 7,
+      "parent_id": 2,
+      "return_value": {
+        "class": "java.lang.String",
+        "object_id": 1129817528,
+        "value": "redirect:home"
+      },
+      "thread_id": 30
+    },
+    {
+      "elapsed": 0.00299514,
+      "event": "return",
+      "http_server_response": {
+        "headers": {
+          "Location": "http://localhost:8080/home"
+        },
+        "status": 302
+      },
+      "id": 8,
+      "parent_id": 1,
+      "thread_id": 30
+    }
+  ],
+  "version": "1.2",
+  "metadata": {
+    "name": "POST /login (302) - 17:06:34.580",
+    "app": "OC_DA_JAVA_P9_Front",
+    "language": {
+      "name": "java",
+      "version": "17.0.7+7",
+      "engine": "OpenJDK 64-Bit Server VM"
+    },
+    "client": {
+      "name": "appmap-java",
+      "url": "https://github.com/appland/appmap-java"
+    },
+    "recorder": {
+      "name": "request_recording",
+      "type": "requests"
+    },
+    "recording": {},
+    "git": {
+      "repository": "https://github.com/SimonArduin/OC_DA_JAVA_P9_Front.git",
+      "branch": "dev",
+      "commit": "000bc4e40393a4c3c9be346b116b9043d525e2dd"
+    }
+  },
+  "classMap": [
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "name": "login",
+                          "type": "function",
+                          "static": false,
+                          "location": "front/src/main/java/com/medilabo/front/util/HeadersUtil.java:50"
+                        }
+                      ],
+                      "name": "HeadersUtil",
+                      "type": "class"
+                    }
+                  ],
+                  "name": "util",
+                  "type": "package"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "name": "login",
+                          "type": "function",
+                          "static": false,
+                          "location": "front/src/main/java/com/medilabo/front/service/LoginService.java:18"
+                        }
+                      ],
+                      "name": "LoginService",
+                      "type": "class"
+                    }
+                  ],
+                  "name": "service",
+                  "type": "package"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "name": "loginPost",
+                          "type": "function",
+                          "static": false,
+                          "location": "front/src/main/java/com/medilabo/front/controller/LoginController.java:42"
+                        }
+                      ],
+                      "name": "LoginController",
+                      "type": "class"
+                    }
+                  ],
+                  "name": "controller",
+                  "type": "package"
+                }
+              ],
+              "name": "front",
+              "type": "package"
+            }
+          ],
+          "name": "medilabo",
+          "type": "package"
+        }
+      ],
+      "name": "com",
+      "type": "package"
+    },
+    {
+      "type": "http",
+      "name": "HTTP server requests",
+      "children": [
+        {
+          "type": "route",
+          "name": "POST /login"
+        }
+      ]
+    }
+  ]
+}

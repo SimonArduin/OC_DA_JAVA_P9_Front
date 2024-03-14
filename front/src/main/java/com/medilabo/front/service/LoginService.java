@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpSession;
 public class LoginService {
 
     /**
-     * This method adds a header to a session.
+     * This method adds a header to a session and updates the number of login attempts.
      * The header has authentication information from loginInfoDto,
      * and its contentType is set to json.
      * @param loginInfoDto
@@ -22,6 +22,11 @@ public class LoginService {
         String username = loginInfoDto.getUsername();
         String password = loginInfoDto.getPassword();
         HttpHeaders headers = new HttpHeaders();
+
+        // increase login attempts counter
+        Integer loginAttempt = (Integer) session.getAttribute("loginAttempt");
+        loginAttempt++;
+        session.setAttribute("loginAttempt", loginAttempt);
 
         // add credentials to headers
         headers.setBasicAuth(username, password);
@@ -40,6 +45,7 @@ public class LoginService {
      */
     public void logout(HttpSession session) {
         session.removeAttribute("headers");
+        session.invalidate();
     }
 
 }

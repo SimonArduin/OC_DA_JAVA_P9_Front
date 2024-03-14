@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -23,11 +24,21 @@ public class LoginController {
     private static final Logger logger = LoggerFactory.getLogger(NoteController.class);
 
     /**
-     * This method displays the login form.
+     * This method displays the login form,
+     * after checking if another attempt has already been made for this session.
      * @return A String corresponding to a thymeleaf template
      */
     @GetMapping("login")
-    public String login() {
+    public String login(HttpSession session, Model model) {
+        Boolean firstAttempt = true;
+        Integer loginAttempt = (Integer) session.getAttribute("loginAttempt");
+        if(loginAttempt == null) {
+            loginAttempt = 0;
+            session.setAttribute("loginAttempt", loginAttempt);
+        }
+        if(loginAttempt>0)
+            firstAttempt = false;
+        model.addAttribute("firstAttempt", firstAttempt);
         return "login";
     }
 

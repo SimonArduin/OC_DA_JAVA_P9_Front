@@ -10,6 +10,14 @@ import java.util.List;
 
 public abstract class BasicController {
 
+    /**
+     * This method handles exceptions that can be thrown when calling the other microservices.
+     * On an UNAUTHORIZED exception, the user is redirected to the login page.
+     * On a FORBIDDEN exception, the user is shown the "forbidden" page.
+     * All other exceptions display the basic "error" page.
+     * @param exception A HttpClientErrorException thrown by the application
+     * @return A String corresponding to a Thymeleaf template
+     */
     @ExceptionHandler(HttpClientErrorException.class)
     public String ExceptionHandler(HttpClientErrorException exception) {
         if(exception.getStatusCode() == HttpStatus.UNAUTHORIZED)

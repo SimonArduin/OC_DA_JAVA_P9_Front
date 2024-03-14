@@ -12,6 +12,7 @@
 <body>
 <div class="container">
   <form class="form-signin" method="post">
+    <p th:if="${firstAttempt == false}">Invalid credentials</p>
     <h2 class="form-signin-heading">Please sign in</h2>
     <p>
       <label for="username" class="sr-only">Username</label>

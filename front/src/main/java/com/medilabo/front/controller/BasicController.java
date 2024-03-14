@@ -3,14 +3,20 @@ package com.medilabo.front.controller;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
 public abstract class BasicController {
 
-    public String redirectToLogin() {
-        return "redirect:../login";
+    @ExceptionHandler(HttpClientErrorException.class)
+    public String ExceptionHandler(HttpClientErrorException exception) {
+        if(exception.getStatusCode() == HttpStatus.UNAUTHORIZED)
+                return "redirect:../login";
+        if(exception.getStatusCode() == HttpStatus.FORBIDDEN)
+            return "forbidden";
+        return "error";
     }
 
     /**

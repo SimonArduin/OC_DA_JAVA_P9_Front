@@ -57,18 +57,9 @@ public class PatientController extends BasicController {
      */
     @PostMapping(value = "add", consumes = "application/x-www-form-urlencoded")
     public String validatePatientAdd(Patient patient, HttpSession session) {
-        String auth = null;
-        try {
-            auth = getAuthentication(session);
-        } catch (HttpClientErrorException exception) {
-            return redirectToLogin();
-        }
-        try {
+        String auth = getAuthentication(session);
             patientService.add(patient, auth);
             return "redirect:home";
-        } catch (HttpClientErrorException.Unauthorized exception) {
-            return redirectToLogin();
-        }
     }
 
     /**
@@ -82,20 +73,11 @@ public class PatientController extends BasicController {
      */
     @GetMapping("get")
     public String patientGet(Integer id, Model model, HttpSession session) {
-        String auth = null;
-        try {
-            auth = getAuthentication(session);
-        } catch (HttpClientErrorException exception) {
-            return redirectToLogin();
-        }
+        String auth =  getAuthentication(session);
 
         // get patient
-        try {
             Patient patient = patientService.get(id, auth);
             model.addAttribute("patient", patient);
-        } catch (HttpClientErrorException exception) {
-            return redirectToLogin();
-        }
 
         // get notes if authorized
         List<Note> noteList = new ArrayList<>();
@@ -131,19 +113,10 @@ public class PatientController extends BasicController {
      */
     @GetMapping("home")
     public String home(Model model, HttpSession session) {
-        String auth = null;
-        try {
-            auth = getAuthentication(session);
-        } catch (HttpClientErrorException exception) {
-            return redirectToLogin();
-        }
-        try {
+        String auth = getAuthentication(session);
             List<Patient> patientList = patientService.getAll(auth);
             model.addAttribute("patientList", patientList);
             return "patient/home";
-        } catch (HttpClientErrorException exception) {
-            return redirectToLogin();
-        }
     }
 
     /**
@@ -156,19 +129,10 @@ public class PatientController extends BasicController {
      */
     @GetMapping("update/{id}")
     public String patientUpdate(@PathVariable Integer id, Model model, HttpSession session) {
-        String auth = null;
-        try {
-            auth = getAuthentication(session);
-        } catch (HttpClientErrorException exception) {
-            return redirectToLogin();
-        }
-        try {
+        String auth =  getAuthentication(session);
             Patient patient = patientService.get(id, auth);
             model.addAttribute("patient", patient);
             return "patient/update";
-        } catch (HttpClientErrorException exception) {
-            return redirectToLogin();
-        }
     }
 
     /**
@@ -181,18 +145,9 @@ public class PatientController extends BasicController {
      */
     @PostMapping(value = "update/{id}", consumes = "application/x-www-form-urlencoded")
     public String validatePatientUpdate(@PathVariable Integer id, Patient patient, HttpSession session) {
-        String auth = null;
-        try {
-            auth = getAuthentication(session);
-        } catch (HttpClientErrorException exception) {
-            return redirectToLogin();
-        }
-        try {
+        String auth =  getAuthentication(session);
             patientService.update(id, patient, auth);
             return "redirect:../get?id=" + id;
-        } catch (HttpClientErrorException exception) {
-            return redirectToLogin();
-        }
     }
 
 }

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -57,12 +56,7 @@ public class NoteController extends BasicController {
      */
     @PostMapping(value = "add", consumes = "application/x-www-form-urlencoded")
     public String validateNoteAdd(Note note, HttpSession session) {
-        String auth = null;
-        try {
-            auth = getAuthentication(session);
-        } catch (HttpClientErrorException exception) {
-            return redirectToLogin();
-        }
+        String auth =  getAuthentication(session);
         noteService.add(note, auth);
         return "redirect:../patient/get?id=" + note.getPatientId();
     }
@@ -77,12 +71,7 @@ public class NoteController extends BasicController {
      */
     @GetMapping("get")
     public String noteGet(String id, Integer patientId, Model model, HttpSession session) {
-        String auth = null;
-        try {
-            auth = getAuthentication(session);
-        } catch (HttpClientErrorException exception) {
-            return redirectToLogin();
-        }
+        String auth =  getAuthentication(session);
         if (id != null)
             return noteGetById(id, model, auth);
         if (patientId != null)

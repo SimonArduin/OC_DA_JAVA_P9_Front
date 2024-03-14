@@ -1,5 +1,0 @@
-[
-  "com/medilabo/front/controller/LoginController",
-  "com/medilabo/front/service/LoginService",
-  "com/medilabo/front/util/HeadersUtil"
-]

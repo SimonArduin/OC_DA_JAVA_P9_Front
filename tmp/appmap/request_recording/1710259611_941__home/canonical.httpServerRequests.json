@@ -1,7 +1,0 @@
-[
-  {
-    "route": "GET /home",
-    "parameters": "()",
-    "status": 302
-  }
-]

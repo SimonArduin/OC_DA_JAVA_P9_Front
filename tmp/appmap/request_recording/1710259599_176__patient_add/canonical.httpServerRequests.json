@@ -1,7 +1,0 @@
-[
-  {
-    "route": "GET /patient/add",
-    "parameters": "()",
-    "status": 200
-  }
-]

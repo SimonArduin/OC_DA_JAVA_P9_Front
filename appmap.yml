@@ -1,5 +1,0 @@
-name: "OC_DA_JAVA_P9_Front"
-appmap_dir: "tmp/appmap"
-packages:
-- path: "com.medilabo.front"
-- path: "templates"

@@ -3,32 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>patient - add</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet"/>
 </head>
 <body>
-<tr>
+<div class="container">
     <a href="home">home</a>
-</tr>
-<h2>ADD PATIENT :</h2>
-<form action="#" th:action="@{add}" th:object="${patient}" method="post">
-    <table>
-        <tr>
-            <td>First name</td>
-            <td>Last name</td>
-            <td>Birth date</td>
-            <td>Gender</td>
-            <td>Address</td>
-            <td>Phone number</td>
-        </tr>
-        <tr>
-            <td><input type="text" th:field="*{firstName}" id="firstName" placeholder="firstName"></td>
-            <td><input type="text" th:field="*{lastName}" id="lastName" placeholder="lastName"></td>
-            <td><input type="text" th:field="*{birthDate}" id="birthDate" placeholder="birthDate"></td>
-            <td><input type="text" th:field="*{gender}" id="gender" placeholder="gender"></td>
-            <td><input type="text" th:field="*{address}" id="address" placeholder="address"></td>
-            <td><input type="text" th:field="*{phoneNumber}" id="phoneNumber" placeholder="phoneNumber"></td>
-        </tr>
-    </table>
-    <input class="btn btn-primary btn-sm" type="submit" value="Add Patient">
-</form>
+    <a href="../logout">logout</a>
+</div>
+<div class="container">
+    <h2>ADD PATIENT :</h2>
+    <form action="#" th:action="@{add}" th:object="${patient}" method="post">
+        <table class="table table-striped">
+            <tr>
+                <td>First name</td>
+                <td>Last name</td>
+                <td>Birth date</td>
+                <td>Gender</td>
+                <td>Address</td>
+                <td>Phone number</td>
+            </tr>
+            <tr>
+                <td><input type="text" th:field="*{firstName}" id="firstName" placeholder="firstName"></td>
+                <td><input type="text" th:field="*{lastName}" id="lastName" placeholder="lastName"></td>
+                <td><input type="text" th:field="*{birthDate}" id="birthDate" placeholder="birthDate"></td>
+                <td><input type="text" th:field="*{gender}" id="gender" placeholder="gender"></td>
+                <td><input type="text" th:field="*{address}" id="address" placeholder="address"></td>
+                <td><input type="text" th:field="*{phoneNumber}" id="phoneNumber" placeholder="phoneNumber"></td>
+            </tr>
+        </table>
+        <input class="btn btn-primary btn-sm" type="submit" value="Add Patient">
+    </form>
+</div>
 </body>
 </html>

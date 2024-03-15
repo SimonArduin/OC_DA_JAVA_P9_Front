@@ -3,31 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <title>patient - get</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet"/>
 </head>
 <body>
-<tr>
+<div class="container">
     <a href="home">home</a>
-</tr>
-<h2>PATIENT INFO :</h2>
-<table>
-    <tr>
-        <td>Id</td>
-        <td>First name</td>
-        <td>Last name</td>
-        <td>Birth date</td>
-        <td>Gender</td>
-        <td>Address</td>
-        <td>Phone number</td>
-    </tr>
-    <tr>
-        <td th:text="${patient.idPatient}">placeholder patient info</td>
-        <td th:text="${patient.firstName}">placeholder patient info</td>
-        <td th:text="${patient.lastName}">placeholder patient info</td>
-        <td th:text="${patient.birthDate}">placeholder patient info</td>
-        <td th:text="${patient.gender}">placeholder patient info</td>
-        <td th:text="${patient.address}">placeholder patient info</td>
-        <td th:text="${patient.phoneNumber}">placeholder patient info</td>
-    </tr>
-</table>
+    <a href="../logout">logout</a>
+</div>
+<div class="container">
+    <h2>PATIENT INFO :</h2>
+    <table class="table table-striped">
+        <tr>
+            <td>Id</td>
+            <td>First name</td>
+            <td>Last name</td>
+            <td>Birth date</td>
+            <td>Gender</td>
+            <td>Address</td>
+            <td>Phone number</td>
+        </tr>
+        <tr>
+            <td th:text="${patient.idPatient}">placeholder patient info</td>
+            <td th:text="${patient.firstName}">placeholder patient info</td>
+            <td th:text="${patient.lastName}">placeholder patient info</td>
+            <td th:text="${patient.birthDate}">placeholder patient info</td>
+            <td th:text="${patient.gender}">placeholder patient info</td>
+            <td th:text="${patient.address}">placeholder patient info</td>
+            <td th:text="${patient.phoneNumber}">placeholder patient info</td>
+        </tr>
+    </table>
+</div>
+<div class="container" th:if="${predictionAuthorized == true}">
+    <h2>PREDICTION :</h2>
+    <table class="table table-striped">
+        <tr>
+            <td>Diabetes risk : </td>
+            <td th:text="${prediction}">placeholder prediction</td>
+        </tr>
+    </table>
+</div>
+<div class="container" th:if="${noteAuthorized == true}">
+    <h2>NOTES :</h2>
+    <table class="table table-striped">
+        <tr>
+            <td>Id</td>
+            <td>Note</td>
+        </tr>
+        <tr th:each="note: ${noteList}">
+            <td th:text="${note.id}">placeholder note info</td>
+            <td th:text="${note.note}">placeholder note info</td>
+        </tr>
+    </table>
+    <a th:href="@{'../note/add?patientId=' + ${patient.idPatient}}">add note</a>
+</div>
 </body>
 </html>
